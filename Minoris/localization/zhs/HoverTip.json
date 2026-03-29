@@ -1,0 +1,6 @@
+{
+  "MINORIS-HOVERTIP-STRESS_RESPONSE": "失去生命：1\n获得格挡：{Amount}",
+  "MINORIS-HOVERTIP-BETRAYAL": "普通次数：{NormalTimes}\n升级次数：{UpgradedTimes}",
+  "MINORIS-HOVERTIP-APOPHIS_ARRIVES": "每回合：对所有敌人造成 {Amount} 点伤害\n倒计时：{Turns}\n倒计时归零：自身失去 {Amount} 点生命",
+  "MINORIS-HOVERTIP-WRATH_OF_VENGEANCE": "总触发次数：{Total}\n本场战斗受伤次数：{Taken}"
+}
