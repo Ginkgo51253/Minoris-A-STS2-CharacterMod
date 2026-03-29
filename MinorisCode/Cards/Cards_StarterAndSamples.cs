@@ -1410,6 +1410,8 @@ public class Card062_ToyClaw() : MinorisCard(1, CardType.Power, CardRarity.Uncom
         DynamicVars["ToyClawPower"].UpgradeValueBy(1m);
     }
 }
+
+[Pool(typeof(TokenCardPool))]
 public class Card062_1_Scratch() : MinorisCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
@@ -1544,6 +1546,8 @@ public class Card069_SetsChoice() : MinorisCard(1, CardType.Power, CardRarity.Ra
         AddKeyword(CardKeyword.Innate);
     }
 }
+
+[Pool(typeof(TokenCardPool))]
 public class Card069_1_Sandstorm() : MinorisCard(1, CardType.Skill, CardRarity.Token, TargetType.None)
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -1555,6 +1559,8 @@ public class Card069_1_Sandstorm() : MinorisCard(1, CardType.Skill, CardRarity.T
         EnergyCost.UpgradeBy(-1);
     }
 }
+
+[Pool(typeof(TokenCardPool))]
 public class Card069_2_ThunderFlash() : MinorisCard(3, CardType.Attack, CardRarity.Token, TargetType.RandomEnemy)
 {
     private const string HitsKey = "Hits";
@@ -1586,6 +1592,8 @@ public class Card069_2_ThunderFlash() : MinorisCard(3, CardType.Attack, CardRari
         DynamicVars[HitsKey].UpgradeValueBy(2m);
     }
 }
+
+[Pool(typeof(TokenCardPool))]
 public class Card069_3_Betrayal() : MinorisCard(2, CardType.Power, CardRarity.Token, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.BetrayalPower>(1)];
@@ -1660,12 +1668,14 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, CardKeyword.Ethereal];
     public override bool ShouldReceiveCombatHooks => true;
     private bool _wasPlayedThisCombat;
+    private int _upgradeLevelWhenPlayed;
 
     protected abstract int Stage { get; }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         _wasPlayedThisCombat = true;
+        _upgradeLevelWhenPlayed = CurrentUpgradeLevel;
         await ApplyStageEffects(choiceContext, cardPlay);
     }
 
@@ -1673,7 +1683,15 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
     {
         if (!_wasPlayedThisCombat) return;
         if (DeckVersion == null) return;
-        await CardCmd.TransformTo<TNext>(DeckVersion);
+        var result = await CardCmd.TransformTo<TNext>(DeckVersion);
+        if (result == null) return;
+        var added = result.Value.cardAdded;
+
+        while (_upgradeLevelWhenPlayed > 0 && added.IsUpgradable)
+        {
+            CardCmd.Upgrade(added);
+            _upgradeLevelWhenPlayed--;
+        }
     }
 
     protected virtual async Task ApplyStageEffects(PlayerChoiceContext choiceContext, CardPlay cardPlay)

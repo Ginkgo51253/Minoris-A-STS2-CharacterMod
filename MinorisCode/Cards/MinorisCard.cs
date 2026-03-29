@@ -16,7 +16,7 @@ public abstract class MinorisCard(int cost, CardType type, CardRarity rarity, Ta
 {
     private const string DefaultCardPortraitPath = "res://images/packed/card_portraits/beta.png";
 
-    private string? GetCardNumber()
+    private string? GetCardPortraitFileStem()
     {
         var name = GetType().Name;
         if (!name.StartsWith("Card", StringComparison.Ordinal)) return null;
@@ -26,14 +26,33 @@ public abstract class MinorisCard(int cost, CardType type, CardRarity rarity, Ta
             var c = name[i];
             if (c < '0' || c > '9') return null;
         }
-        return name.Substring(4, 3);
+        var number = name.Substring(4, 3);
+        var stem = $"MINORIS-CARD-{number}";
+
+        if (name.Length >= 9 && name[7] == '_' && name[8] >= '0' && name[8] <= '9')
+        {
+            var end = 8;
+            while (end < name.Length)
+            {
+                var c = name[end];
+                if (c < '0' || c > '9') break;
+                end++;
+            }
+            var tokenIndex = name.Substring(8, end - 8);
+            if (tokenIndex.Length > 0)
+            {
+                stem = $"{stem}-{tokenIndex}";
+            }
+        }
+
+        return stem;
     }
 
     private string? ResolveNumberedPortraitPath(bool big, bool beta)
     {
-        var number = GetCardNumber();
-        if (number == null) return null;
-        var fileName = $"MINORIS-CARD-{number}.png";
+        var stem = GetCardPortraitFileStem();
+        if (stem == null) return null;
+        var fileName = $"{stem}.png";
         if (big)
         {
             var bigPath = fileName.BigCardImagePath();
