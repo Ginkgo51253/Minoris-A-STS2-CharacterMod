@@ -318,51 +318,6 @@ public class GripPower : MinorisPower
     }
 }
 
-public class ConstructCounterPower : MinorisPower
-{
-    public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Counter;
-    private bool _triggered;
-
-    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-    {
-        var playedCard = cardPlay.Card;
-        if (playedCard.Owner != Owner.Player) return;
-        var name = playedCard.GetType().Name;
-        if (!name.Contains("Construct")) return;
-        Amount += 1;
-        if (!_triggered && Amount >= 3)
-        {
-            _triggered = true;
-            var deck = PileType.Deck.GetPile(Owner.Player);
-            var toUpgrade = deck.Cards.Where(c => c.IsUpgradable && c.GetType().Name.Contains("Construct")).ToList();
-            var runEntry = Owner.Player.RunState.CurrentMapPointHistoryEntry?.GetEntry(Owner.Player.NetId);
-            foreach (var c in toUpgrade)
-            {
-                runEntry?.UpgradedCards.Add(c.Id);
-                c.UpgradeInternal();
-                c.FinalizeUpgradeInternal();
-            }
-            // Also immediately upgrade in-combat instances so players see the effect this combat
-            var combatPiles = new List<CardPile>
-            {
-                PileType.Hand.GetPile(Owner.Player),
-                PileType.Draw.GetPile(Owner.Player),
-                PileType.Discard.GetPile(Owner.Player)
-            };
-            foreach (var pile in combatPiles)
-            {
-                foreach (var c in pile.Cards)
-                {
-                    if (c.GetType().Name.Contains("Construct")) CardCmd.Upgrade(c);
-                }
-            }
-            Flash();
-        }
-        await Task.CompletedTask;
-    }
-}
-
 public class CardboardBlockOnAttackPower : MinorisPower
 {
     public override PowerType Type => PowerType.Buff;

@@ -573,7 +573,7 @@ public class Card023_SolarFlare() : MinorisCard(3, CardType.Attack, CardRarity.U
             var pick = (await CardSelectCmd.FromSimpleGrid(choiceContext, hand, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1))).FirstOrDefault();
             if (pick != null)
             {
-                var cost = pick.EnergyCost.GetWithModifiers(CostModifiers.Local);
+                var cost = Math.Max(0, pick.EnergyCost.GetWithModifiers(CostModifiers.Local));
                 await CardCmd.Exhaust(choiceContext, pick);
                 var current = EnergyCost.GetWithModifiers(CostModifiers.Local);
                 var next = Math.Max(0, current - cost);
@@ -817,60 +817,31 @@ public class Card031_Misdirect() : MinorisCard(0, CardType.Skill, CardRarity.Com
         AddKeyword(CardKeyword.Retain);
     }
 }
-public class Card032_Training() : MinorisCard(1, CardType.Skill, CardRarity.Common, TargetType.None)
+public class Card032_Training() : MinorisCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
     private const string UpgradeCountKey = "UpgradeCount";
-    private static bool ShouldSelectLocalCard(Player player) => LocalContext.IsMe(player) && RunManager.Instance.NetService.Type != NetGameType.Replay;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new BlockVar(8m, ValueProp.Move),
         new IntVar(UpgradeCountKey, 1)
     ];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
         var count = DynamicVars[UpgradeCountKey].IntValue;
         if (count <= 0) return;
 
-        var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c != this && c.IsUpgradable).ToList();
+        var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c.IsUpgradable).ToList();
         if (hand.Count == 0) return;
 
         var prefs = new CardSelectorPrefs(new LocString("gameplay_ui", "CHOOSE_CARD_UPGRADE_HEADER"), count);
-        if (!prefs.RequireManualConfirmation && hand.Count <= prefs.MinSelect)
+        var picks = await CardSelectCmd.FromHand(choiceContext, Owner, prefs, c => c.IsUpgradable, this);
+        foreach (var c in picks)
         {
-            foreach (var c in hand) CardCmd.Upgrade(c);
-            return;
+            CardCmd.Upgrade(c);
         }
-
-        IEnumerable<CardModel> picks;
-        if (CardSelectCmd.Selector != null)
-        {
-            picks = await CardSelectCmd.Selector.GetSelectedCards(hand, prefs.MinSelect, prefs.MaxSelect);
-        }
-        else
-        {
-            uint choiceId = RunManager.Instance.PlayerChoiceSynchronizer.ReserveChoiceId(Owner);
-            await choiceContext.SignalPlayerChoiceBegun(PlayerChoiceOptions.CancelPlayCardActions);
-            if (ShouldSelectLocalCard(Owner))
-            {
-                NPlayerHand.Instance?.CancelAllCardPlay();
-                picks = await NCombatRoom.Instance!.Ui.Hand.SelectCards(
-                    prefs,
-                    c => c != this && c.IsUpgradable,
-                    this,
-                    NPlayerHand.Mode.UpgradeSelect
-                );
-                RunManager.Instance.PlayerChoiceSynchronizer.SyncLocalChoice(Owner, choiceId, PlayerChoiceResult.FromMutableCombatCards(picks));
-            }
-            else
-            {
-                picks = (await RunManager.Instance.PlayerChoiceSynchronizer.WaitForRemoteChoice(Owner, choiceId)).AsCombatCards();
-            }
-            await choiceContext.SignalPlayerChoiceEnded();
-        }
-
-        foreach (var c in picks) CardCmd.Upgrade(c);
     }
 
     protected override void OnUpgrade()
@@ -878,18 +849,35 @@ public class Card032_Training() : MinorisCard(1, CardType.Skill, CardRarity.Comm
         DynamicVars[UpgradeCountKey].UpgradeValueBy(1m);
     }
 }
-public class Card033_Construct() : MinorisCard(1, CardType.Skill, CardRarity.Common, TargetType.None)
+public class Card033_Construct() : MinorisCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
-    public override int MaxUpgradeLevel => int.MaxValue;
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(2m, ValueProp.Move)];
+    private const string BonusPerPlayKey = "BonusPerPlay";
+
+    public override bool ShouldReceiveCombatHooks => true;
+    private int _timesPlayedThisCombat;
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new BlockVar(8m, ValueProp.Move),
+        new IntVar(BonusPerPlayKey, 1)
+    ];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<Powers.ConstructCounterPower>(Owner.Creature, 0, Owner.Creature, this);
+        var bonusPerPlay = DynamicVars[BonusPerPlayKey].IntValue;
+        var bonusBlock = (decimal)_timesPlayedThisCombat * bonusPerPlay;
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue + bonusBlock, ValueProp.Move, cardPlay);
+        _timesPlayedThisCombat++;
     }
+
+    public override async Task AfterCombatEnd(CombatRoom room)
+    {
+        _timesPlayedThisCombat = 0;
+        await Task.CompletedTask;
+    }
+
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(2m);
+        DynamicVars[BonusPerPlayKey].UpgradeValueBy(1m);
     }
 }
 public class Card034_Roll() : MinorisCard(1, CardType.Skill, CardRarity.Common, TargetType.None)
@@ -927,7 +915,7 @@ public class Card036_CatStep() : MinorisCard(2, CardType.Skill, CardRarity.Commo
 {
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<SlipperyPower>(Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<SlipperyPower>(Owner.Creature, 3, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
