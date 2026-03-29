@@ -1,0 +1,11 @@
+{
+  "id": "Minoris",
+  "name": "米诺瑞斯",
+  "author": "银杏",
+  "description": "原创角色“米诺瑞斯”",
+  "version": "v0.1.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": ["BaseLib"],
+  "affects_gameplay": true
+}

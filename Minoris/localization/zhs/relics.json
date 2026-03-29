@@ -1,0 +1,17 @@
+{
+  "MINORIS-FREEZE_DRIED.title": "大块冻干",
+  "MINORIS-FREEZE_DRIED.description": "在你的回合开始时，获得4点活力",
+  "MINORIS-FREEZE_DRIED.flavor": "定时，定量，优质的小零食",
+  "MINORIS-SMALL_BOW_TIE.title": "小领结",
+  "MINORIS-SMALL_BOW_TIE.description": "在战斗开始时，随机升级你的一张手牌",
+  "MINORIS-SMALL_BOW_TIE.flavor": "整装出发",
+  "MINORIS-TIDY_SMALL_BOW_TIE.title": "整洁的小领结",
+  "MINORIS-TIDY_SMALL_BOW_TIE.description": "在你的回合开始时，永久升级你的一张手牌",
+  "MINORIS-TIDY_SMALL_BOW_TIE.flavor": "衣装整洁，心情也会变好。",
+  "MINORIS-BANDAGE_ROLL.title": "绷带卷",
+  "MINORIS-BANDAGE_ROLL.description": "在你的回合中，每当你失去至少1点生命时，回复1点生命",
+  "MINORIS-BANDAGE_ROLL.flavor": "感到疼痛吗？那就缠两圈！",
+  "MINORIS-GILDED_SPHINX.title": "镀金斯芬克斯",
+  "MINORIS-GILDED_SPHINX.description": "当你消耗一张牌时，将一张随机的0费（非X费）牌置入你的手牌",
+  "MINORIS-GILDED_SPHINX.flavor": "“随身携带的贵州物品，但真的很聒噪。”——透特"
+}

@@ -1,0 +1,9 @@
+# Godot 4+ specific ignores
+.godot/
+.idea/
+.omc/
+.claude/
+
+/bin/
+/android/
+/__godot_user/

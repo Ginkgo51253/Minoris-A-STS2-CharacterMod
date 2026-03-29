@@ -1,0 +1,14 @@
+{
+  "MINORIS-MINORIS.title": "Minoris",
+  "MINORIS-MINORIS.titleObject": "Minoris",
+  "MINORIS-MINORIS.description": "A boy blessed by the Sun God. Multi-hit attacks; hates bees.",
+  "MINORIS-MINORIS.aromaPrinciple": "May the sun be with you",
+  "MINORIS-MINORIS.banter.alive.endTurnPing": "So urgent!",
+  "MINORIS-MINORIS.banter.dead.endTurnPing": "...",
+  "MINORIS-MINORIS.eventDeathPrevention": "Feeling a bit tired...",
+  "MINORIS-MINORIS.goldMonologue": "More gold, the better!",
+  "MINORIS-MINORIS.possessiveAdjective": "his",
+  "MINORIS-MINORIS.pronounObject": "him",
+  "MINORIS-MINORIS.pronounPossessive": "his",
+  "MINORIS-MINORIS.pronounSubject": "he"
+}

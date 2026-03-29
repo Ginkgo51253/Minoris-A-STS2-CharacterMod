@@ -1,0 +1,14 @@
+{
+  "MINORIS-MINORIS.title": "米诺瑞斯",
+  "MINORIS-MINORIS.titleObject": "米诺瑞斯",
+  "MINORIS-MINORIS.description": "为太阳神眷顾的少年，前来挑战高塔。\n擅长多段攻击，讨厌蜜蜂。",
+  "MINORIS-MINORIS.aromaPrinciple": "愿太阳与你同在",
+  "MINORIS-MINORIS.banter.alive.endTurnPing": "好急好急",
+  "MINORIS-MINORIS.banter.dead.endTurnPing": "……",
+  "MINORIS-MINORIS.eventDeathPrevention": "感觉有点累了……",
+  "MINORIS-MINORIS.goldMonologue": "钱钱多多益善！",
+  "MINORIS-MINORIS.possessiveAdjective": "他的",
+  "MINORIS-MINORIS.pronounObject": "他",
+  "MINORIS-MINORIS.pronounPossessive": "他的",
+  "MINORIS-MINORIS.pronounSubject": "他"
+}

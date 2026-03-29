@@ -1,0 +1,17 @@
+{
+  "MINORIS-FREEZE_DRIED.title": "Freeze-Dried Chunk",
+  "MINORIS-FREEZE_DRIED.description": "At the start of your turn, gain 4 Vigor",
+  "MINORIS-FREEZE_DRIED.flavor": "Timed, measured, premium snacks.",
+  "MINORIS-SMALL_BOW_TIE.title": "Small Bow Tie",
+  "MINORIS-SMALL_BOW_TIE.description": "At the start of combat, upgrade a random card in your hand",
+  "MINORIS-SMALL_BOW_TIE.flavor": "Suit up and set out.",
+  "MINORIS-TIDY_SMALL_BOW_TIE.title": "Tidy Small Bow Tie",
+  "MINORIS-TIDY_SMALL_BOW_TIE.description": "At the start of your turn, permanently upgrade a random card in your hand",
+  "MINORIS-TIDY_SMALL_BOW_TIE.flavor": "A neat look lifts the mood.",
+  "MINORIS-BANDAGE_ROLL.title": "Bandage Roll",
+  "MINORIS-BANDAGE_ROLL.description": "During your turn, whenever you lose at least 1 HP, heal 1 HP",
+  "MINORIS-BANDAGE_ROLL.flavor": "Hurts? Wrap twice!",
+  "MINORIS-GILDED_SPHINX.title": "Gilded Sphinx",
+  "MINORIS-GILDED_SPHINX.description": "When you Exhaust a card, add a random 0-cost (non-X) card to your hand",
+  "MINORIS-GILDED_SPHINX.flavor": "\"A portable Guizhou trinket—terribly chatty.\" — Thoth"
+}
