@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -19,7 +19,8 @@ public class Card040_Halftime() : MinorisCard(0, CardType.Skill, CardRarity.Unco
 {
     private const string EnergyGainKey = "EnergyGain";
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar(EnergyGainKey, 1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(EnergyGainKey, 1)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
 
     protected override bool ShouldGlowGoldInternal => WasLastCardPlayedAttack;
     private bool WasLastCardPlayedAttack
@@ -45,7 +46,6 @@ public class Card040_Halftime() : MinorisCard(0, CardType.Skill, CardRarity.Unco
         DynamicVars[EnergyGainKey].UpgradeValueBy(1m);
     }
 }
-
 
 
 

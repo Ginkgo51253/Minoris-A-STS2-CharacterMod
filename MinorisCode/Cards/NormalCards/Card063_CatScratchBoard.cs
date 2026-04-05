@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,9 +17,15 @@ tag标签:
 */
 public class Card063_CatScratchBoard() : MinorisCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
+    private const string DexterityKey = "Dexterity";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar(DexterityKey, 2)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<DexterityPower>()];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.CatScratchBoardPower>(Owner.Creature, 2, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.CatScratchBoardPower>(Owner.Creature, DynamicVars[DexterityKey].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {

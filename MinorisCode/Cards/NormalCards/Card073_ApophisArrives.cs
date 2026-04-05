@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,7 +18,7 @@ tag标签:
 public class Card073_ApophisArrives() : MinorisCard(3, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.ApophisArrivesPower>(20)];
-
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<Powers.ApophisArrivesPower>(Owner.Creature, DynamicVars["ApophisArrivesPower"].IntValue, Owner.Creature, this);

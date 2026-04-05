@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,7 +17,13 @@ tag标签:
 */
 public class Card065_Generator() : MinorisCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Ethereal),
+         HoverTipFactory.ForEnergy(this)];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<Powers.GeneratorPower>(Owner.Creature, 1, Owner.Creature, this);
@@ -27,7 +33,6 @@ public class Card065_Generator() : MinorisCard(2, CardType.Power, CardRarity.Unc
         RemoveKeyword(CardKeyword.Ethereal);
     }
 }
-
 
 
 

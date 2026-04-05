@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,6 +18,12 @@ tag标签:
 public class Card031_Misdirect() : MinorisCard(0, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
+         HoverTipFactory.FromKeyword(CardKeyword.Retain),
+         HoverTipFactory.FromPower<StrengthPower>()];
+    
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar("LoseStrength", 6)];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

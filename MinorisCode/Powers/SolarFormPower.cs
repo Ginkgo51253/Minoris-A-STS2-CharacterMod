@@ -1,4 +1,3 @@
-﻿
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -11,38 +10,13 @@ namespace Minoris.MinorisCode.Powers;
 */
 public class SolarFormPower : MinorisPower
 {
-    private class Data
-    {
-        public bool upgradeGeneratedCards;
-    }
-
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    private bool UpgradeGeneratedCards => GetInternalData<Data>().upgradeGeneratedCards;
-
-    protected override object InitInternalData()
-    {
-        return new Data();
-    }
-
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
-    {
-        if (cardSource != null && cardSource.IsUpgraded)
-        {
-            GetInternalData<Data>().upgradeGeneratedCards = true;
-        }
-        return Task.CompletedTask;
-    }
-
-    public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
-    {
-        if (power == this && cardSource != null && cardSource.IsUpgraded)
-        {
-            GetInternalData<Data>().upgradeGeneratedCards = true;
-        }
-        return Task.CompletedTask;
-    }
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        new HoverTip(this, (new LocString("HoverTip", "MINORIS-HOVERTIP-SOLAR_FORM").ToString() ?? string.Empty), isSmart: false)
+    ];
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
@@ -52,19 +26,21 @@ public class SolarFormPower : MinorisPower
             .Where(c => c.CanBeGeneratedInCombat)
             .Where(c => c.Rarity != CardRarity.Basic && c.Rarity != CardRarity.Ancient && c.Rarity != CardRarity.Event && c.Rarity != CardRarity.Token)
             .ToList();
+        
         var pickA = all.Where(c => c.Type == CardType.Attack).ToList();
         var pickS = all.Where(c => c.Type == CardType.Skill).ToList();
         var pickP = all.Where(c => c.Type == CardType.Power).ToList();
         if (pickA.Count == 0 || pickS.Count == 0 || pickP.Count == 0) return;
+        
         var rng = player.RunState.Rng.CombatCardGeneration;
         var countPerType = System.Math.Max(1, (int)Amount);
 
-        async Task CreateAndAdd(IReadOnlyList<CardModel> pool)
+        async Task CreateAndAdd(IReadOnlyList<CardModel> pool, bool upgradeCard)
         {
             var canonical = rng.NextItem(pool);
             if (canonical == null) return;
             var card = CombatState.CreateCard(canonical, Owner.Player);
-            if (UpgradeGeneratedCards) CardCmd.Upgrade(card);
+            if (upgradeCard) CardCmd.Upgrade(card);
             card.EnergyCost.SetThisCombat(0);
             card.AddKeyword(CardKeyword.Ethereal);
             CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, false, CardPilePosition.Top));
@@ -72,30 +48,17 @@ public class SolarFormPower : MinorisPower
 
         for (var i = 0; i < countPerType; i++)
         {
-            await CreateAndAdd(pickA);
+            await CreateAndAdd(pickA, false);
         }
         for (var i = 0; i < countPerType; i++)
         {
-            await CreateAndAdd(pickS);
+            await CreateAndAdd(pickS, false);
         }
         for (var i = 0; i < countPerType; i++)
         {
-            await CreateAndAdd(pickP);
+            await CreateAndAdd(pickP, false);
         }
+
         Flash();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

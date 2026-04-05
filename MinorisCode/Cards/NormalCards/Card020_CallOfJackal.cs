@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -10,14 +10,18 @@ namespace Minoris.MinorisCode.Cards;
 卡牌稀有度: CardRarity.Uncommon
 tag标签: 
 费用: 1
-卡牌效果: 造成 {Damage:diff()} 点伤害。这张牌每打出一次，本场战斗中其造成伤害的次数+1。
-卡牌描述(ZHS): 造成 {Damage:diff()} 点伤害。这张牌每打出一次，本场战斗中其造成伤害的次数+1。
-卡牌描述(ENG): Deal {Damage:diff()} damage. Each time you play this, it hits 1 additional time this combat.
+卡牌效果: 造成 {Damage:diff()} 点伤害 {Hits:diff()} 次。这张牌每打出一次，本场战斗中其造成伤害的次数+1。
+卡牌描述(ZHS): 造成 {Damage:diff()} 点伤害 {Hits:diff()} 次。这张牌每打出一次，本场战斗中其造成伤害的次数+1。
+卡牌描述(ENG): Deal {Damage:diff()} damage {Hits:diff()} times. Each time you play this, it hits 1 additional time this combat.
 升级效果: 伤害+4
 */
 public class Card020_CallOfJackal() : MinorisCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
+    private const string HitsKey = "Hits";
+    
+    protected override IEnumerable<DynamicVar> CanonicalVars => 
+        [new DamageVar(7m, ValueProp.Move),
+         new IntVar(HitsKey, 1)];
     public override bool ShouldReceiveCombatHooks => true;
     private int _extraHits;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

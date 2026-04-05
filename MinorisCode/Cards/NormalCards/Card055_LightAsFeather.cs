@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,6 +18,11 @@ tag标签:
 public class Card055_LightAsFeather() : MinorisCard(1, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
+         HoverTipFactory.FromPower<SlowPower>()];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;

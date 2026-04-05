@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,6 +18,10 @@ tag标签:
 public class Card075_WildForm() : MinorisCard(3, CardType.Power, CardRarity.Ancient, TargetType.Self)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Ethereal)];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<Minoris.MinorisCode.Powers.WildFormPower>(Owner.Creature, 1, Owner.Creature, this);

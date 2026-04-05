@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿namespace Minoris.MinorisCode.Powers;
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿namespace Minoris.MinorisCode.Powers;
 
 
 public abstract class MinorisPower : CustomPowerModel

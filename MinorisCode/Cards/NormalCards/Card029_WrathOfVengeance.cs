@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -10,14 +10,18 @@ namespace Minoris.MinorisCode.Cards;
 卡牌稀有度: CardRarity.Rare
 tag标签: 
 费用: 3
-卡牌效果: 随机造成 {Damage:diff()} 点伤害。本场战斗中你每受过一次伤，本牌就会重复打出一次。
-卡牌描述(ZHS): 随机造成 {Damage:diff()} 点伤害。本场战斗中你每受过一次伤，本牌就会重复打出一次。
-卡牌描述(ENG): Deal {Damage:diff()} damage to a random enemy. Repeat once for each time you were hurt this combat.
+卡牌效果: 随机造成 {Damage:diff()} 点伤害 {Hits:diff()} 次。本场战斗中你每受过一次伤，本牌就会重复打出一次。
+卡牌描述(ZHS): 随机造成 {Damage:diff()} 点伤害 {Hits:diff()} 次。本场战斗中你每受过一次伤，本牌就会重复打出一次。
+卡牌描述(ENG): Deal {Damage:diff()} damage to a random enemy {Hits:diff()} times. Repeat once for each time you were hurt this combat.
 升级效果: 伤害+8
 */
 public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRarity.Rare, TargetType.RandomEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(16m, ValueProp.Move)];
+    private const string HitsKey = "Hits";
+    
+    protected override IEnumerable<DynamicVar> CanonicalVars => 
+        [new DamageVar(16m, ValueProp.Move),
+         new IntVar(HitsKey, 1)];
     private int _totalTriggersThisCombat;
 
     private int GetDamageTakenThisCombat()
@@ -28,17 +32,7 @@ public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRa
             .Count(e => e.Receiver == Owner.Creature && e.Result.UnblockedDamage > 0);
     }
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips
-    {
-        get
-        {
-            var damageTakenThisCombat = GetDamageTakenThisCombat();
-            var description = (new LocString("HoverTip", "MINORIS-HOVERTIP-WRATH_OF_VENGEANCE").ToString() ?? string.Empty)
-                .Replace("{Total}", _totalTriggersThisCombat.ToString())
-                .Replace("{Taken}", damageTakenThisCombat.ToString());
-            return [new HoverTip(TitleLocString, description)];
-        }
-    }
+
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

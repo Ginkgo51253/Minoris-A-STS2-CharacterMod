@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,6 +18,9 @@ tag标签:
 public class Card050_BandageHeal() : MinorisCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

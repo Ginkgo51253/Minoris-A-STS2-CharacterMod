@@ -1,6 +1,9 @@
 {
-  "MINORIS-HOVERTIP-STRESS_RESPONSE": "失去生命：1\n获得格挡：{Amount}",
-  "MINORIS-HOVERTIP-BETRAYAL": "普通次数：{NormalTimes}\n升级次数：{UpgradedTimes}",
-  "MINORIS-HOVERTIP-APOPHIS_ARRIVES": "每回合：对所有敌人造成 {Amount} 点伤害\n倒计时：{Turns}\n倒计时归零：自身失去 {Amount} 点生命",
-  "MINORIS-HOVERTIP-WRATH_OF_VENGEANCE": "总触发次数：{Total}\n本场战斗受伤次数：{Taken}"
+  "MINORIS-HOVERTIP-STRESS_RESPONSE": "本回合中，每当你打出一张牌时，失去{HpLoss}点生命，获得{Block}点格挡。",
+  "MINORIS-HOVERTIP-APOPHIS_ARRIVES": "每回合：对所有敌人造成{Amount}点伤害\n倒计时：{Turns}\n倒计时归零时，自身失去{Amount}点生命",
+  "MINORIS-HOVERTIP-TOY_CLAW": "每回合开始时，置入{Amount}张“抓挠”到手牌",
+  "MINORIS-HOVERTIP-SANDSTORM": "本回合受到伤害减半",
+  "MINORIS-HOVERTIP-KITTEN_KNIFE": "攻击造成未被格挡的伤害时，额外对目标造成{Amount}点伤害",
+  "MINORIS-HOVERTIP-BRONZE_GAUNTLET": "攻击造成未被格挡的伤害时，获得{Amount}点格挡",
+  "MINORIS-HOVERTIP-SOLAR_FORM": "回合开始时置入攻击牌、技能牌、能力牌各一张，它们的费用为0，但具有虚无。"
 }

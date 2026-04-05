@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,7 +17,8 @@ tag标签:
 */
 public class Card006_Chase() : MinorisCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move), new EnergyVar(1)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
     protected override bool ShouldGlowGoldInternal => WasLastCardPlayedAttack;
     private bool WasLastCardPlayedAttack
     {
@@ -39,7 +40,6 @@ public class Card006_Chase() : MinorisCard(1, CardType.Attack, CardRarity.Common
         DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }
-
 
 
 

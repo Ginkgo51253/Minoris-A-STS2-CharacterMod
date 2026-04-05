@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -22,6 +22,15 @@ public class Card009_TestingBlow() : MinorisCard(1, CardType.Attack, CardRarity.
         new DamageVar(4m, ValueProp.Move),
         new PowerVar<VigorPower>(2)
     ];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips
+    {
+        get
+        {
+            return [HoverTipFactory.FromPower<VigorPower>()];
+        }
+    }
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;

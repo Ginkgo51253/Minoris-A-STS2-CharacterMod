@@ -1,4 +1,4 @@
-﻿
+﻿﻿﻿
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,6 +17,11 @@ tag标签:
 */
 public class Card069_SetsChoice() : MinorisCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromCard<Card069_1_Sandstorm>(),
+         HoverTipFactory.FromCard<Card069_2_ThunderFlash>(),
+         HoverTipFactory.FromCard<Card069_3_Betrayal>()];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (CombatState == null) return;

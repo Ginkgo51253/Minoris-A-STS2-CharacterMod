@@ -1,4 +1,4 @@
-﻿
+using Minoris.MinorisCode.Powers;
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,12 +17,18 @@ tag标签:
 */
 public class Card044_MintCandy() : MinorisCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.None)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
+    private const string EnergyReduceKey = "EnergyReduce";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => 
+    [
+        new CardsVar(1),
+        new IntVar(EnergyReduceKey, 1)
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
-        await PowerCmd.Apply<Powers.NextAttackCostReducePower>(Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.NextAttackCostReducePower>(Owner.Creature, DynamicVars[EnergyReduceKey].IntValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

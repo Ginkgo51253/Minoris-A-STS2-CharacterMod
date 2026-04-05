@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -14,6 +14,12 @@ public class SandstormPower : MinorisPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
     protected override bool IsVisibleInternal => true;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        new HoverTip(this, (new LocString("HoverTip", "MINORIS-HOVERTIP-SANDSTORM").ToString() ?? string.Empty), isSmart: false)
+    ];
+
     public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
         return target == Owner ? 0.5m : 1m;

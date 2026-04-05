@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,20 +18,26 @@ tag标签:
 public class Card041_DeadlyCoffee() : MinorisCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     private const string EnergyGainKey = "EnergyGain";
+    private const string DamageKey = "Damage";
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar(EnergyGainKey, 2)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => 
+    [
+        new EnergyVar(EnergyGainKey, 2),
+        new IntVar(DamageKey, 6)
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         Owner.PlayerCombatState!.GainEnergy(DynamicVars[EnergyGainKey].IntValue);
-        await PowerCmd.Apply<Powers.DeadlyCoffeePower>(Owner.Creature, 6, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.DeadlyCoffeePower>(Owner.Creature, DynamicVars[DamageKey].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
         DynamicVars[EnergyGainKey].UpgradeValueBy(1m);
     }
 }
-
 
 
 

@@ -17,6 +17,8 @@ tag标签:
 */
 public class Card053_AlchemicalCrucible() : MinorisCard(1, CardType.Skill, CardRarity.Rare, TargetType.None)
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c != this).ToList();

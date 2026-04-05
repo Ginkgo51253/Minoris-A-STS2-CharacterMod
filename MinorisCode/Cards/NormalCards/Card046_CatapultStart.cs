@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -20,6 +20,10 @@ public class Card046_CatapultStart() : MinorisCard(1, CardType.Skill, CardRarity
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     public override int MaxUpgradeLevel => int.MaxValue;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);

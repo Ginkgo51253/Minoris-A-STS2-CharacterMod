@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -14,36 +14,26 @@ public class CommandTheHuntPower : MinorisPower
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
     protected override bool IsVisibleInternal => true;
-    private bool _echoing;
-    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public override int ModifyCardPlayCount(CardModel card, Creature? target, int playCount)
     {
-        var playedCard = cardPlay.Card;
-        if (CombatState == null) return;
-        if (playedCard.Owner == Owner.Player) return;
-        if (playedCard.Type != CardType.Attack) return;
-        if (_echoing) return;
-        
-        _echoing = true;
-        for (var i = 0; i < Amount; i++)
+        if (card.Owner.Creature == Owner) return playCount; // 自己打出的卡牌不触发
+        if (card.Type != CardType.Attack) return playCount;
+        return playCount + Amount;
+    }
+
+    public override async Task AfterModifyingCardPlayCount(CardModel card)
+    {
+        if (card.Owner.Creature == Owner) return; // 自己打出的卡牌不触发
+        if (card.Type != CardType.Attack) return;
+        Flash();
+    }
+
+    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    {
+        if (side == Owner.Side)
         {
-            var copy = CombatState.CreateCard(playedCard.CanonicalInstance, playedCard.Owner);
-            copy.EnergyCost.SetThisCombat(0);
-            copy.AddKeyword(CardKeyword.Exhaust);
-            await CardCmd.AutoPlay(choiceContext, copy, cardPlay.Target);
+            await PowerCmd.Remove(this);
         }
-        _echoing = false;
-    }
-
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-    {
-        if (player != Owner.Player) return;
-        await PowerCmd.TickDownDuration(this);
-        await Task.CompletedTask;
-    }
-
-    public override Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-    {
-        return Task.CompletedTask;
     }
 }
 

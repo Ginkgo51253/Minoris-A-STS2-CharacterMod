@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,12 +19,49 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
     MinorisCard(3, CardType.Skill, rarity, targetType)
     where TNext : CardModel
 {
+    private const string BlockKey = "Block";
+    private const string DamageKey = "Damage";
+    private const string EnergyKey = "Energy";
+    private const string HealKey = "Heal";
+    private const string StrengthKey = "Strength";
+    private const string DexterityKey = "Dexterity";
+    private const string VigorKey = "Vigor";
+    private const string ArtifactKey = "Artifact";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => 
+    [
+        new IntVar(BlockKey, 5),
+        new IntVar(DamageKey, 5),
+        new EnergyVar(EnergyKey, 1),
+        new IntVar(HealKey, 2),
+        new IntVar(StrengthKey, 1),
+        new IntVar(DexterityKey, 1),
+        new IntVar(VigorKey, 4),
+        new IntVar(ArtifactKey, 1)
+    ];
+
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, CardKeyword.Ethereal];
     public override bool ShouldReceiveCombatHooks => true;
     private bool _wasPlayedThisCombat;
     private int _upgradeLevelWhenPlayed;
 
     protected abstract int Stage { get; }
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips
+    {
+        get
+        {
+            var tips = new List<IHoverTip>();
+            if (Stage >= 2) tips.Add(HoverTipFactory.Static(StaticHoverTip.Block));
+            if (Stage >= 4) tips.Add(HoverTipFactory.ForEnergy(this));
+            if (Stage >= 7) tips.Add(HoverTipFactory.FromPower<StrengthPower>());
+            if (Stage >= 8) tips.Add(HoverTipFactory.FromPower<DexterityPower>());
+            if (Stage >= 9) tips.Add(HoverTipFactory.FromPower<VigorPower>());
+            if (Stage >= 10) tips.Add(HoverTipFactory.FromPower<ArtifactPower>());
+            tips.Add(HoverTipFactory.FromKeyword(CardKeyword.Exhaust));
+            return tips;
+        }
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -51,25 +89,25 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
     {
         if (Stage >= 2)
         {
-            await CreatureCmd.GainBlock(Owner.Creature, 5m, ValueProp.Move, cardPlay);
+            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars[BlockKey].IntValue, ValueProp.Move, cardPlay);
         }
 
         if (Stage >= 3)
         {
             if (cardPlay.Target != null)
             {
-                await DamageCmd.Attack(5m).FromCard(this).Targeting(cardPlay.Target).Execute(choiceContext);
+                await DamageCmd.Attack(DynamicVars[DamageKey].IntValue).FromCard(this).Targeting(cardPlay.Target).Execute(choiceContext);
             }
         }
 
         if (Stage >= 4)
         {
-            await PlayerCmd.GainEnergy(1, Owner);
+            await PlayerCmd.GainEnergy(DynamicVars[EnergyKey].IntValue, Owner);
         }
 
         if (Stage >= 5)
         {
-            await CreatureCmd.Heal(Owner.Creature, 2m);
+            await CreatureCmd.Heal(Owner.Creature, DynamicVars[HealKey].IntValue);
         }
 
         if (Stage >= 6)
@@ -77,39 +115,29 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
             var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c != this).ToList();
             if (hand.Count > 0)
             {
-                var prefs = new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 0, 1);
-                var pick = (await CardSelectCmd.FromSimpleGrid(choiceContext, hand, Owner, prefs)).FirstOrDefault();
-                if (pick != null) await CardCmd.Exhaust(choiceContext, pick);
+                var randomCard = hand[(int)(GD.Randi() % hand.Count)];
+                await CardCmd.Exhaust(choiceContext, randomCard);
             }
         }
 
         if (Stage >= 7)
         {
-            await PowerCmd.Apply<StrengthPower>(Owner.Creature, 1, Owner.Creature, this);
+            await PowerCmd.Apply<StrengthPower>(Owner.Creature, DynamicVars[StrengthKey].IntValue, Owner.Creature, this);
         }
 
         if (Stage >= 8)
         {
-            var drawn = await CardPileCmd.Draw(choiceContext, Owner);
-            if (drawn != null)
-            {
-                CardCmd.ApplyKeyword(drawn, CardKeyword.Retain);
-            }
+            await PowerCmd.Apply<DexterityPower>(Owner.Creature, DynamicVars[DexterityKey].IntValue, Owner.Creature, this);
         }
 
         if (Stage >= 9)
         {
-            await PowerCmd.Apply<DexterityPower>(Owner.Creature, 1, Owner.Creature, this);
+            await PowerCmd.Apply<VigorPower>(Owner.Creature, DynamicVars[VigorKey].IntValue, Owner.Creature, this);
         }
 
         if (Stage >= 10)
         {
-            await PowerCmd.Apply<VigorPower>(Owner.Creature, 4, Owner.Creature, this);
-        }
-
-        if (Stage >= 11)
-        {
-            await PowerCmd.Apply<ArtifactPower>(Owner.Creature, 1, Owner.Creature, this);
+            await PowerCmd.Apply<ArtifactPower>(Owner.Creature, DynamicVars[ArtifactKey].IntValue, Owner.Creature, this);
         }
 
         await Task.CompletedTask;
@@ -120,4 +148,3 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
         EnergyCost.UpgradeBy(-1);
     }
 }
-

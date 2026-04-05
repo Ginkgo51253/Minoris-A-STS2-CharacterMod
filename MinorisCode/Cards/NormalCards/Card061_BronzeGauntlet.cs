@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,9 +17,11 @@ tag标签:
 */
 public class Card061_BronzeGauntlet() : MinorisCard(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.BronzeGauntletPower>(1)];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.BronzeGauntletPower>(Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.BronzeGauntletPower>(Owner.Creature, DynamicVars["BronzeGauntletPower"].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {

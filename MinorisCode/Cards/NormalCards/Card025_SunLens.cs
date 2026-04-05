@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,7 +17,8 @@ tag标签:
 */
 public class Card025_SunLens() : MinorisCard(0, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move), new EnergyVar(1)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (CombatState == null) return;
@@ -36,7 +37,6 @@ public class Card025_SunLens() : MinorisCard(0, CardType.Attack, CardRarity.Rare
         DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }
-
 
 
 

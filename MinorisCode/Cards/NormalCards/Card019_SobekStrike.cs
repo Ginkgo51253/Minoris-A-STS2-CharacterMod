@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -23,6 +23,10 @@ public class Card019_SobekStrike() : MinorisCard(1, CardType.Attack, CardRarity.
         new DamageVar(6m, ValueProp.Move),
         new PowerVar<Powers.GripPower>(1)
     ];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<Powers.GripPower>()];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;

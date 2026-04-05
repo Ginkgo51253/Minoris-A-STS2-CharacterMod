@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -11,54 +11,8 @@ namespace Minoris.MinorisCode.Powers;
 */
 public class BetrayalPower : MinorisPower
 {
-    private class Data
-    {
-        public int upgradedAmount;
-    }
-
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-
-    private int UpgradedAmount => GetInternalData<Data>().upgradedAmount;
-    protected override IEnumerable<IHoverTip> ExtraHoverTips
-    {
-        get
-        {
-            var normalTimes = System.Math.Max(0, Amount - UpgradedAmount);
-            var upgradedTimes = System.Math.Max(0, UpgradedAmount);
-            return
-            [
-                new HoverTip(this, (new LocString("HoverTip", "MINORIS-HOVERTIP-BETRAYAL").ToString() ?? string.Empty)
-                    .Replace("{NormalTimes}", normalTimes.ToString())
-                    .Replace("{UpgradedTimes}", upgradedTimes.ToString()), isSmart: false)
-            ];
-        }
-    }
-
-    protected override object InitInternalData()
-    {
-        return new Data();
-    }
-
-    public override Task AfterApplied(Creature? applier, CardModel? cardSource)
-    {
-        if (cardSource != null && cardSource.IsUpgraded)
-        {
-            GetInternalData<Data>().upgradedAmount = Amount;
-            InvokeDisplayAmountChanged();
-        }
-        return Task.CompletedTask;
-    }
-
-    public override Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
-    {
-        if (power == this && amount != 0m && cardSource != null && cardSource.IsUpgraded)
-        {
-            GetInternalData<Data>().upgradedAmount = System.Math.Max(0, GetInternalData<Data>().upgradedAmount + (int)amount);
-            InvokeDisplayAmountChanged();
-        }
-        return Task.CompletedTask;
-    }
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
@@ -71,22 +25,24 @@ public class BetrayalPower : MinorisPower
             .SelectMany(p => p.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint))
             .Where(c => c.Rarity != CardRarity.Token && c.Rarity != CardRarity.Ancient && c.Rarity != CardRarity.Event)
             .ToList();
+        
+        var upgradableCandidates = candidates.Where(c => c.IsUpgradable).ToList();
         if (candidates.Count == 0) return;
         var rng = player.RunState.Rng.CombatCardGeneration;
 
-        async Task OfferOnce(bool upgradeOfferedCards)
+        async Task OfferOnce()
         {
             if (CombatManager.Instance.IsEnding) return;
-            if (candidates.Count == 0) return;
+            var sourcePool = candidates;
+            if (sourcePool.Count == 0) return;
             var options = new List<CardModel>();
-            var optionCount = System.Math.Min(3, candidates.Count);
+            var optionCount = System.Math.Min(3, sourcePool.Count);
             for (var i = 0; i < optionCount; i++)
             {
-                var pick = rng.NextItem(candidates);
+                var pick = rng.NextItem(sourcePool);
                 if (pick == null) break;
-                candidates.Remove(pick);
+                sourcePool.Remove(pick);
                 var card = CombatState.CreateCard(pick, Owner.Player);
-                if (upgradeOfferedCards) CardCmd.Upgrade(card);
                 card.EnergyCost.SetUntilPlayed(0);
                 options.Add(card);
             }
@@ -98,22 +54,12 @@ public class BetrayalPower : MinorisPower
             Flash();
         }
 
-        var normalTimes = System.Math.Max(0, Amount - UpgradedAmount);
-        var upgradedTimes = System.Math.Max(0, UpgradedAmount);
-
-        for (var i = 0; i < normalTimes; i++)
+        for (var i = 0; i < Amount; i++)
         {
-            await OfferOnce(false);
-        }
-
-        for (var i = 0; i < upgradedTimes; i++)
-        {
-            await OfferOnce(true);
+            await OfferOnce();
         }
     }
 }
-
-
 
 
 

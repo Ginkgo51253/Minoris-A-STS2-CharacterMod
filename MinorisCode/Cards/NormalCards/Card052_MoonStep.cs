@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,8 +17,14 @@ tag标签:
 */
 public class Card052_MoonStep() : MinorisCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
     public override bool ShouldReceiveCombatHooks => true;
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Ethereal),
+         HoverTipFactory.ForEnergy(this)];
+
     private int _playsThisTurn;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -39,7 +45,6 @@ public class Card052_MoonStep() : MinorisCard(0, CardType.Skill, CardRarity.Rare
         await Task.CompletedTask;
     }
 }
-
 
 
 

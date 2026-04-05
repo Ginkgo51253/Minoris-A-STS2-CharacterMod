@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,6 +18,11 @@ tag标签:
 public class Card042_Allergen() : MinorisCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
+         HoverTipFactory.FromKeyword(CardKeyword.Retain)];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<Powers.AllergenPower>(Owner.Creature, 1, Owner.Creature, this);

@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,9 +17,15 @@ tag标签:
 */
 public class Card064_LittleBell() : MinorisCard(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
 {
+    private const string StrengthKey = "Strength";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar(StrengthKey, 1)];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.LittleBellPower>(Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.LittleBellPower>(Owner.Creature, DynamicVars[StrengthKey].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {

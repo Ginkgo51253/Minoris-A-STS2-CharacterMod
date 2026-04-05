@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿namespace Minoris.MinorisCode.Cards;
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿namespace Minoris.MinorisCode.Cards;
 
 
 /*
@@ -20,11 +20,17 @@ public class Card071_SolarForm() : MinorisCard(3, CardType.Power, CardRarity.Rar
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.SolarFormPower>(Owner.Creature, DynamicVars["SolarFormPower"].IntValue, Owner.Creature, this);
+        if (IsUpgraded)
+        {
+            await PowerCmd.Apply<Powers.SolarFormPowerPlus>(Owner.Creature, DynamicVars["SolarFormPower"].IntValue, Owner.Creature, this);
+        }
+        else
+        {
+            await PowerCmd.Apply<Powers.SolarFormPower>(Owner.Creature, DynamicVars["SolarFormPower"].IntValue, Owner.Creature, this);
+        }
     }
 
     protected override void OnUpgrade()
     {
     }
 }
-

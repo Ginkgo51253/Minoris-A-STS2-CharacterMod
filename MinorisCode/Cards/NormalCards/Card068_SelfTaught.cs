@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,11 +17,26 @@ tag标签:
 */
 public class Card068_SelfTaught() : MinorisCard(1, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
+    private const string StrengthKey = "Strength";
+    private const string DexterityKey = "Dexterity";
+    private const string DrawKey = "Draw";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => 
+    [
+        new IntVar(StrengthKey, 1),
+        new IntVar(DexterityKey, 1),
+        new IntVar(DrawKey, 1)
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromPower<StrengthPower>(),
+         HoverTipFactory.FromPower<DexterityPower>()];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<StrengthPower>(Owner.Creature, 1, Owner.Creature, this);
-        await PowerCmd.Apply<DexterityPower>(Owner.Creature, 1, Owner.Creature, this);
-        await PowerCmd.Apply<Powers.SelfTaughtDrawPower>(Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<StrengthPower>(Owner.Creature, DynamicVars[StrengthKey].IntValue, Owner.Creature, this);
+        await PowerCmd.Apply<DexterityPower>(Owner.Creature, DynamicVars[DexterityKey].IntValue, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.SelfTaughtDrawPower>(Owner.Creature, DynamicVars[DrawKey].IntValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

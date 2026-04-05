@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -24,6 +24,12 @@ public class Card058_GatherStrength() : MinorisCard(3, CardType.Skill, CardRarit
         new BlockVar(16m, ValueProp.Move),
         new PowerVar<StrengthPower>(2),
         new PowerVar<Powers.DrawExtraNextTurnPower>(1)
+    ];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => 
+    [
+        HoverTipFactory.FromPower<StrengthPower>(),
+        HoverTipFactory.FromKeyword(CardKeyword.Retain)
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

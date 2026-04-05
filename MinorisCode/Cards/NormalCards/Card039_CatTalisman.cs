@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,7 +17,13 @@ tag标签:
 */
 public class Card039_CatTalisman() : MinorisCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust),
+         HoverTipFactory.ForEnergy(this)];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.Heal(Owner.Creature, 1m);
@@ -29,7 +35,6 @@ public class Card039_CatTalisman() : MinorisCard(0, CardType.Skill, CardRarity.U
         AddKeyword(CardKeyword.Innate);
     }
 }
-
 
 
 

@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -13,6 +13,12 @@ public class KittenKnifePower : MinorisPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        new HoverTip(this, (new LocString("HoverTip", "MINORIS-HOVERTIP-KITTEN_KNIFE").ToString() ?? string.Empty), isSmart: false)
+    ];
+
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
         if (dealer != Owner) return;

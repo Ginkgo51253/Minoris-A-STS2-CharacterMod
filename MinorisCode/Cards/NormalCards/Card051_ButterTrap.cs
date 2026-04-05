@@ -1,4 +1,4 @@
-﻿
+using Minoris.MinorisCode.Powers;
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -10,14 +10,18 @@ namespace Minoris.MinorisCode.Cards;
 卡牌稀有度: CardRarity.Uncommon
 tag标签: 
 费用: 2
-卡牌效果: 获得12点格挡。本回合中，你每受到一次攻击，都给予攻击者1层虚弱与1层易伤
-卡牌描述(ZHS): 获得12点格挡。本回合中，你每受到一次攻击，都给予攻击者1层虚弱与1层易伤
-卡牌描述(ENG): Gain 12 Block. This turn, whenever you are attacked, apply 1 Weak and 1 Vulnerable to the attacker
-升级效果: 格挡+4
+卡牌效果: 获得12点格挡。本回合中，你每受到一次攻击，都给予攻击者2层虚弱与2层易伤
+卡牌描述(ZHS): 获得12点格挡。本回合中，你每受到一次攻击，都给予攻击者2层虚弱与2层易伤
+卡牌描述(ENG): Gain 12 Block. This turn, whenever you are attacked, apply 2 Weak and 2 Vulnerable to the attacker
+升级效果: 格挡+6
 */
 public class Card051_ButterTrap() : MinorisCard(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(12m, ValueProp.Move)];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => 
+        [HoverTipFactory.FromPower<WeakPower>(),
+         HoverTipFactory.FromPower<VulnerablePower>()];
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
@@ -25,7 +29,7 @@ public class Card051_ButterTrap() : MinorisCard(2, CardType.Skill, CardRarity.Un
     }
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(4m);
+        DynamicVars.Block.UpgradeValueBy(6m);
     }
 }
 

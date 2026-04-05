@@ -18,10 +18,17 @@ tag标签:
 public class Card069_3_Betrayal() : MinorisCard(2, CardType.Power, CardRarity.Token, TargetType.Self)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.BetrayalPower>(1)];
-
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.BetrayalPower>(Owner.Creature, DynamicVars["BetrayalPower"].IntValue, Owner.Creature, this);
+        if (IsUpgraded)
+        {
+            await PowerCmd.Apply<Powers.BetrayalPowerPlus>(Owner.Creature, DynamicVars["BetrayalPower"].IntValue, Owner.Creature, this);
+        }
+        else
+        {
+            await PowerCmd.Apply<Powers.BetrayalPower>(Owner.Creature, DynamicVars["BetrayalPower"].IntValue, Owner.Creature, this);
+        }
     }
 
     protected override void OnUpgrade()
@@ -29,5 +36,4 @@ public class Card069_3_Betrayal() : MinorisCard(2, CardType.Power, CardRarity.To
         DynamicVars["BetrayalPower"].UpgradeValueBy(1m);
     }
 }
-
 

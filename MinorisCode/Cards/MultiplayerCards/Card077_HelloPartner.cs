@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,21 +18,27 @@ tag标签:
 public class Card077_HelloPartner() : MinorisCard(3, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
+    private const string EnergyKey = "Energy";
+    
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new EnergyVar(EnergyKey, 3),
         new CardsVar(3),
         new HealVar(3m)
     ];
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (CombatState == null) return;
+        var energy = DynamicVars[EnergyKey].IntValue;
         var draw = (uint)DynamicVars.Cards.IntValue;
         var heal = DynamicVars.Heal.BaseValue;
         var players = CombatState.Players.Distinct().ToList();
         foreach (var p in players)
         {
-            await PlayerCmd.GainEnergy(3, p);
+            await PlayerCmd.GainEnergy(energy, p);
             await CardPileCmd.Draw(choiceContext, draw, p);
             await CreatureCmd.Heal(p.Creature, heal);
         }
@@ -44,7 +50,6 @@ public class Card077_HelloPartner() : MinorisCard(3, CardType.Power, CardRarity.
         DynamicVars.Heal.UpgradeValueBy(2m);
     }
 }
-
 
 
 

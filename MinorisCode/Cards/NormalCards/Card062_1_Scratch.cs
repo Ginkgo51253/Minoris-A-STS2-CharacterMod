@@ -18,6 +18,9 @@ tag标签:
 public class Card062_1_Scratch() : MinorisCard(0, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
 
     private const string HitsKey = "Hits";
 

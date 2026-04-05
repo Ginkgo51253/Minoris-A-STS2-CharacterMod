@@ -1,4 +1,4 @@
-﻿
+﻿﻿﻿
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -20,6 +20,29 @@ tag标签:
 [Pool(typeof(TokenCardPool))]
 public class Card056_12_TothSlateXiii() : MinorisCard(3, CardType.Power, CardRarity.Token, TargetType.Self)
 {
+    private const string AmountKey = "Amount";
+    private const string BlockKey = "Block";
+    private const string DamageKey = "Damage";
+    private const string EnergyKey = "Energy";
+    private const string HealKey = "Heal";
+    private const string StrengthKey = "Strength";
+    private const string DexterityKey = "Dexterity";
+    private const string VigorKey = "Vigor";
+    private const string ArtifactKey = "Artifact";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new IntVar(AmountKey, 3),
+        new IntVar(BlockKey, 5),
+        new IntVar(DamageKey, 5),
+        new EnergyVar(EnergyKey, 1),
+        new IntVar(HealKey, 2),
+        new IntVar(StrengthKey, 1),
+        new IntVar(DexterityKey, 1),
+        new IntVar(VigorKey, 4),
+        new IntVar(ArtifactKey, 1)
+    ];
+
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, CardKeyword.Ethereal];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -30,7 +53,6 @@ public class Card056_12_TothSlateXiii() : MinorisCard(3, CardType.Power, CardRar
         EnergyCost.UpgradeBy(-1);
     }
 }
-
 
 
 

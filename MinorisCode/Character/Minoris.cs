@@ -19,7 +19,7 @@ public class Minoris : PlaceholderCharacterModel
     public static readonly Color EnergyOutlineColor = new("4B4511FF");
     public static readonly Color EnergyLabelOutline = new("4B4511FF");
     public static readonly Color Dialogue = new("7A4E00FF");
-    public static readonly Color MapDrawing = new("C99A00FF");
+    public static readonly Color MapDrawing = new("FFFACDFF");
     public static readonly Color RemoteTargetingLine = new("FFE07AFF");
     public static readonly Color RemoteTargetingOutline = new("4B4511FF");
     private const string DefaultCharUiIcon = "char_select_minoris.png";

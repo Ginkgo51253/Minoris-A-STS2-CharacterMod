@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -47,6 +47,8 @@ public class Card017_ElegantScratch() : MinorisCard(1, CardType.Attack, CardRari
     [
         new IntVar(ScratchAmpKey, 1)
     ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<Powers.ScratchAmpPower>()];
 
     protected override void OnUpgrade()
     {

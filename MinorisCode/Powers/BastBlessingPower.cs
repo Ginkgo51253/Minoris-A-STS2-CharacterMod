@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -25,6 +25,14 @@ public class BastBlessingPower : MinorisPower
     {
         if (card.Owner == Owner.Player && card.Type == CardType.Attack) Flash();
         return Task.CompletedTask;
+    }
+
+    public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+    {
+        if (side == Owner.Side)
+        {
+            await PowerCmd.Remove(this);
+        }
     }
 }
 

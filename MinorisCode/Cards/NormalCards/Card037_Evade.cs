@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -19,6 +19,11 @@ public class Card037_Evade() : MinorisCard(3, CardType.Skill, CardRarity.Common,
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(24m, ValueProp.Move)];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Retain, CardKeyword.Exhaust];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [HoverTipFactory.FromKeyword(CardKeyword.Retain),
+         HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.Damage(choiceContext, new[] { Owner.Creature }, 3m, ValueProp.Unblockable | ValueProp.Unpowered, Owner.Creature, this);

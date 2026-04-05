@@ -1,4 +1,4 @@
-﻿
+using Minoris.MinorisCode.Powers;
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -20,10 +20,13 @@ public class Card049_StressResponse() : MinorisCard(1, CardType.Skill, CardRarit
     private const string AmountKey = "Amount";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar(AmountKey, 8)];
+    
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<Powers.StressResponsePower>(Owner.Creature, DynamicVars[AmountKey].IntValue, Owner.Creature, this);
+        var p = Owner.Creature.GetPower<Powers.StressResponsePower>();
+        p?.IncrementStack();
     }
 
     protected override void OnUpgrade()
@@ -31,7 +34,6 @@ public class Card049_StressResponse() : MinorisCard(1, CardType.Skill, CardRarit
         DynamicVars[AmountKey].UpgradeValueBy(4m);
     }
 }
-
 
 
 
