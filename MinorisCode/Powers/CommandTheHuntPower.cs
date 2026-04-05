@@ -22,11 +22,15 @@ public class CommandTheHuntPower : MinorisPower
         if (playedCard.Owner == Owner.Player) return;
         if (playedCard.Type != CardType.Attack) return;
         if (_echoing) return;
+        
         _echoing = true;
-        var copy = CombatState.CreateCard(playedCard.CanonicalInstance, playedCard.Owner);
-        copy.EnergyCost.SetThisCombat(0);
-        copy.AddKeyword(CardKeyword.Exhaust);
-        await CardCmd.AutoPlay(choiceContext, copy, cardPlay.Target);
+        for (var i = 0; i < Amount; i++)
+        {
+            var copy = CombatState.CreateCard(playedCard.CanonicalInstance, playedCard.Owner);
+            copy.EnergyCost.SetThisCombat(0);
+            copy.AddKeyword(CardKeyword.Exhaust);
+            await CardCmd.AutoPlay(choiceContext, copy, cardPlay.Target);
+        }
         _echoing = false;
     }
 

@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -22,10 +22,10 @@ public class TothSlateXIIIPower : MinorisPower
             await CreatureCmd.GainBlock(Owner, 5m, ValueProp.Unpowered, null);
 
             var enemies = CombatState.GetOpponentsOf(Owner).Where(c => c.IsAlive).ToList();
-            if (enemies.Count > 0)
+            if (enemies.Count > 0 && Owner.Player != null)
             {
-                var idx = (int)(GD.Randi() % (uint)enemies.Count);
-                await CreatureCmd.Damage(choiceContext, enemies[idx], 5m, ValueProp.Unpowered, Owner);
+                var target = Owner.Player.RunState.Rng.CombatTargets.NextItem(enemies);
+                await CreatureCmd.Damage(choiceContext, target, 5m, ValueProp.Unpowered, Owner);
                 await CheckWinConditionIfCombatEnding();
                 if (!CombatManager.Instance.IsInProgress) return;
             }

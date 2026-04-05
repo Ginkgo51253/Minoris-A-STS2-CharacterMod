@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -23,7 +23,7 @@ public class Card030_PanickedDodge() : MinorisCard(0, CardType.Skill, CardRarity
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
         var candidates = PileType.Hand.GetPile(Owner).Cards.Where(c => c != this).ToList();
         if (candidates.Count == 0) return;
-        var idx = (int)(GD.Randi() % (uint)candidates.Count);
+        var idx = Owner.RunState.Rng.CombatCardGeneration.NextInt(candidates.Count);
         var options = Owner.Character.CardPool
             .GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
             .Where(c => c.CanBeGeneratedInCombat)

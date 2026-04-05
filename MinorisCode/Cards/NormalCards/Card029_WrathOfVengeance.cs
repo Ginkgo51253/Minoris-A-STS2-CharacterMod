@@ -1,4 +1,4 @@
-﻿
+﻿﻿﻿﻿﻿﻿﻿﻿
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -47,8 +47,7 @@ public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRa
         {
             var enemies = CombatState.GetOpponentsOf(Owner.Creature).Where(e => e.IsAlive).ToList();
             if (enemies.Count == 0) return;
-            var idx = (int)(GD.Randi() % (uint)enemies.Count);
-            var target = enemies[idx];
+            var target = Owner.RunState.Rng.CombatTargets.NextItem(enemies);
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(target).WithHitFx("vfx/vfx_attack_slash").Execute(choiceContext);
             _totalTriggersThisCombat++;
         }

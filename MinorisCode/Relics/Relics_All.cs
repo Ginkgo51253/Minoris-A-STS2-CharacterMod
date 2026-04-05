@@ -47,7 +47,7 @@ public class SmallBowTie : MinorisRelic
         if (combatState.RoundNumber > 1) return;
         var hand = PileType.Hand.GetPile(Owner).Cards.ToList();
         if (hand.Count == 0) return;
-        var pick = hand[GD.RandRange(0, hand.Count - 1)];
+        var pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(hand);
         CardCmd.Upgrade(pick);
         Flash();
         await Task.CompletedTask;
@@ -65,7 +65,7 @@ public class TidySmallBowTie : MinorisRelic
         if (side != Owner.Creature.Side) return;
         var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c.IsUpgradable).ToList();
         if (hand.Count == 0) return;
-        var pick = hand[(int)(GD.Randi() % (uint)hand.Count)];
+        var pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(hand);
         var deck = PileType.Deck.GetPile(Owner);
         var deckCard = deck?.Cards.FirstOrDefault(c => c.Id == pick.Id);
         if (deckCard != null && !ReferenceEquals(deckCard, pick) && deckCard.IsUpgradable)

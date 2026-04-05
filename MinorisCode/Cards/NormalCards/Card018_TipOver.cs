@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -38,8 +38,8 @@ public class Card018_TipOver() : MinorisCard(1, CardType.Attack, CardRarity.Unco
             if (CombatManager.Instance.IsEnding) break;
             var enemies = CombatState.HittableEnemies.Where(e => e.IsAlive).ToList();
             if (enemies.Count == 0) break;
-            var idx = (int)(GD.Randi() % (uint)enemies.Count);
-            await CardCmd.AutoPlay(choiceContext, c, enemies[idx]);
+            var target = Owner.RunState.Rng.CombatTargets.NextItem(enemies);
+            await CardCmd.AutoPlay(choiceContext, c, target);
             if (CombatManager.Instance.IsEnding) break;
         }
     }
