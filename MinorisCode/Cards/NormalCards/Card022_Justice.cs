@@ -37,7 +37,7 @@ public class Card022_Justice() : MinorisCard(3, CardType.Attack, CardRarity.Unco
             foreach (var c in pile.Cards)
             {
                 var cost = c.EnergyCost.GetWithModifiers(CostModifiers.Local);
-                if (cost == 0) zeroCostCards.Add(c);
+                if (cost == 0 && !c.EnergyCost.CostsX) zeroCostCards.Add(c);
             }
         }
 

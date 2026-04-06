@@ -5,10 +5,13 @@
   "MINORIS-MINORIS.aromaPrinciple": "May the sun be with you",
   "MINORIS-MINORIS.banter.alive.endTurnPing": "So urgent!",
   "MINORIS-MINORIS.banter.dead.endTurnPing": "...",
+  "MINORIS-MINORIS.cardsModifierDescription": "Minoris's cards now appear in rewards and shops.",
+  "MINORIS-MINORIS.cardsModifierTitle": "Minoris Cards",
   "MINORIS-MINORIS.eventDeathPrevention": "Feeling a bit tired...",
   "MINORIS-MINORIS.goldMonologue": "More gold, the better!",
   "MINORIS-MINORIS.possessiveAdjective": "his",
   "MINORIS-MINORIS.pronounObject": "him",
   "MINORIS-MINORIS.pronounPossessive": "his",
-  "MINORIS-MINORIS.pronounSubject": "he"
+  "MINORIS-MINORIS.pronounSubject": "he",
+  "MINORIS-MINORIS.unlockText": "Play a run using [pink]{Prerequisite}[/pink] to unlock this character."
 }
