@@ -32,6 +32,3 @@ public class CatScratchBoardPower : MinorisPower
 
 
 
-
-
-

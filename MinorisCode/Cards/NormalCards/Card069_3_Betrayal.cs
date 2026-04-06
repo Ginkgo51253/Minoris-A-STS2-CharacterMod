@@ -12,7 +12,7 @@ tag标签:
 卡牌效果: 在你的回合开始时，从其他职业的卡牌中选择获得一张{IfUpgraded:show:[gold]升级过[/gold]的|}牌，其费用在打出前为0费
 卡牌描述(ZHS): 在你的回合开始时，从其他职业的卡牌中选择获得一张{IfUpgraded:show:[gold]升级过[/gold]的|}牌，其费用在打出前为0费
 卡牌描述(ENG): At the start of your turn, choose a{IfUpgraded:show: [gold]Upgraded[/gold]|} card from other classes. It costs 0 until played
-升级效果: BetrayalPower+1
+升级效果: 将选择的卡牌替换为升级过的
 */
 [Pool(typeof(TokenCardPool))]
 public class Card069_3_Betrayal() : MinorisCard(2, CardType.Power, CardRarity.Token, TargetType.Self)
@@ -29,11 +29,6 @@ public class Card069_3_Betrayal() : MinorisCard(2, CardType.Power, CardRarity.To
         {
             await PowerCmd.Apply<Powers.BetrayalPower>(Owner.Creature, DynamicVars["BetrayalPower"].IntValue, Owner.Creature, this);
         }
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars["BetrayalPower"].UpgradeValueBy(1m);
     }
 }
 

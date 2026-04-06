@@ -42,7 +42,7 @@
 	"MINORIS-CARD021_MASTER_CRAFT.title": "Master Craft",
 	"MINORIS-CARD021_MASTER_CRAFT.description": "Deal{Damage:diff()}damage{Hits:diff()}times. Can be upgraded infinitely.",
 	"MINORIS-CARD022_JUSTICE.title": "Justice",
-	"MINORIS-CARD022_JUSTICE.description": "Deal{Damage:diff()}damage. Gain{Block:diff()}[gold]Block[/gold]. Exhaust ALL 0{energyPrefix:energyIcons(1)}cards in your [gold]Draw Pile[/gold], [gold]Hand[/gold], and [gold]Discard Pile[/gold]. For each exhausted card, gain +{BonusPerCard:diff()}damage and +{BonusPerCard:diff()}[gold]Block[/gold].",
+	"MINORIS-CARD022_JUSTICE.description": "Deal{CalculatedDamage:diff()}damage. Gain{CalculatedBlock:diff()}[gold]Block[/gold]. Exhaust ALL 0{energyPrefix:energyIcons(1)}cards in your [gold]Draw Pile[/gold], [gold]Hand[/gold], and [gold]Discard Pile[/gold]. For each exhausted card, gain +{BonusPerCard:diff()}damage and +{BonusPerCard:diff()}[gold]Block[/gold].",
 	"MINORIS-CARD023_SOLAR_FLARE.title": "Solar Flare",
 	"MINORIS-CARD023_SOLAR_FLARE.description": "Deal{Damage:diff()}damage. Exhaust 1 card from your hand. Reduce this card's cost this combat by that card's cost.",
 	"MINORIS-CARD024_HURRICANE_STRIKE.title": "Hurricane Strike",

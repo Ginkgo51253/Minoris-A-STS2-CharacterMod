@@ -42,7 +42,7 @@
 	"MINORIS-CARD021_MASTER_CRAFT.title": "高超武艺",
 	"MINORIS-CARD021_MASTER_CRAFT.description": "造成{Damage:diff()}点伤害{Hits:diff()}次。这张牌可以无限次升级。",
 	"MINORIS-CARD022_JUSTICE.title": "正义",
-	"MINORIS-CARD022_JUSTICE.description": "造成{Damage:diff()}点伤害。获得{Block:diff()}点[gold]格挡[/gold]。消耗你[gold]抽牌堆[/gold]、[gold]手牌[/gold]、[gold]弃牌堆[/gold]中所有 0 费牌。每消耗一张，本牌额外造成{BonusPerCard:diff()}点伤害并额外获得{BonusPerCard:diff()}点[gold]格挡[/gold]。",
+	"MINORIS-CARD022_JUSTICE.description": "造成{CalculatedDamage:diff()}点伤害。获得{CalculatedBlock:diff()}点[gold]格挡[/gold]。消耗你[gold]抽牌堆[/gold]、[gold]手牌[/gold]、[gold]弃牌堆[/gold]中所有 0 费牌。每消耗一张，本牌额外造成{BonusPerCard:diff()}点伤害并额外获得{BonusPerCard:diff()}点[gold]格挡[/gold]。",
 	"MINORIS-CARD023_SOLAR_FLARE.title": "太阳耀斑",
 	"MINORIS-CARD023_SOLAR_FLARE.description": "造成{Damage:diff()}点伤害。选择一张[gold]手牌[/gold]消耗，本牌费用在本场战斗中减少该牌费用的数值。",
 	"MINORIS-CARD024_HURRICANE_STRIKE.title": "飓风打击",

@@ -1,4 +1,4 @@
-﻿﻿﻿﻿
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,13 +18,27 @@ tag标签:
 public class Card022_Justice() : MinorisCard(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     private const string BonusPerCardKey = "BonusPerCard";
+    private int _combatBonus;
+    private const string CalcDamageKey = "CalculatedDamage";
+    private const string CalcBlockKey = "CalculatedBlock";
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(3m, ValueProp.Move),
         new BlockVar(3m, ValueProp.Move),
-        new IntVar(BonusPerCardKey, 3)
+        new IntVar(BonusPerCardKey, 3),
+        new ExtraDamageVar(1m),
+        new CalculationBaseVar(3m),
+        new CalculationExtraVar(1m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalcFinalBonusMultiplier),
+        new CalculatedBlockVar(ValueProp.Move).WithMultiplier(CalcFinalBonusMultiplier)
     ];
+
+    private static decimal CalcFinalBonusMultiplier(CardModel card, Creature? target)
+    {
+        if (card is Card022_Justice c) return c._combatBonus;
+        return 0m;
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -42,18 +56,19 @@ public class Card022_Justice() : MinorisCard(3, CardType.Attack, CardRarity.Unco
         }
 
         var bonusPerCard = DynamicVars[BonusPerCardKey].IntValue;
-        var totalBonus = bonusPerCard * zeroCostCards.Count;
+        var addThisPlay = bonusPerCard * zeroCostCards.Count;
+        _combatBonus += addThisPlay;
 
         foreach (var c in zeroCostCards)
-            await CardPileCmd.Add(c, PileType.Exhaust, CardPilePosition.Top);
+            await CardCmd.Exhaust(choiceContext, c);
 
-        // Step 2: Deal damage once with total amount (base + bonus)
-        var totalDamage = DynamicVars.Damage.IntValue + totalBonus;
+        // Step 2: Deal damage once with total amount (base + accumulated bonus)
+        var totalDamage = DynamicVars.Damage.IntValue + _combatBonus;
         await DamageCmd.Attack(totalDamage).FromCard(this).Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            //.WithHitFx("vfx/vfx_attack_slash")//似乎是特效相关
             .Execute(choiceContext);
-        // Step 3: Gain block once with total amount (base + bonus)
-        var totalBlock = DynamicVars.Block.IntValue + totalBonus;
+        // Step 3: Gain block once with total amount (base + accumulated bonus)
+        var totalBlock = DynamicVars.Block.IntValue + _combatBonus;
         await CreatureCmd.GainBlock(Owner.Creature, totalBlock, ValueProp.Move, cardPlay);
     }
 
@@ -62,13 +77,9 @@ public class Card022_Justice() : MinorisCard(3, CardType.Attack, CardRarity.Unco
         DynamicVars.Damage.UpgradeValueBy(2m);
         DynamicVars.Block.UpgradeValueBy(2m);
         DynamicVars[BonusPerCardKey].UpgradeValueBy(2m);
+        DynamicVars.CalculationBase.UpgradeValueBy(2m);
     }
 }
-
-
-
-
-
 
 
 

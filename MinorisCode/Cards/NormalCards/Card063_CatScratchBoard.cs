@@ -40,4 +40,3 @@ public class Card063_CatScratchBoard() : MinorisCard(1, CardType.Power, CardRari
 
 
 
-

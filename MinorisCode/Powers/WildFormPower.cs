@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 namespace Minoris.MinorisCode.Powers;
 
 
