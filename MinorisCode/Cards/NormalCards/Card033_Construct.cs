@@ -21,6 +21,7 @@ public class Card033_Construct() : MinorisCard(1, CardType.Skill, CardRarity.Com
 
     public override bool ShouldReceiveCombatHooks => true;
     private int _timesPlayedThisCombat;
+    private decimal _accumulatedBlock;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -29,16 +30,24 @@ public class Card033_Construct() : MinorisCard(1, CardType.Skill, CardRarity.Com
     ];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var bonusPerPlay = DynamicVars[BonusPerPlayKey].IntValue;
-        var bonusBlock = (decimal)_timesPlayedThisCombat * bonusPerPlay;
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue + bonusBlock, ValueProp.Move, cardPlay);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
+        DynamicVars.Block.BaseValue += DynamicVars[BonusPerPlayKey].BaseValue;
+        _accumulatedBlock += DynamicVars[BonusPerPlayKey].BaseValue;
         _timesPlayedThisCombat++;
     }
 
     public override async Task AfterCombatEnd(CombatRoom room)
     {
         _timesPlayedThisCombat = 0;
+        DynamicVars.Block.BaseValue -= _accumulatedBlock;
+        _accumulatedBlock = 0;
         await Task.CompletedTask;
+    }
+
+    protected override void AfterDowngraded()
+    {
+        base.AfterDowngraded();
+        DynamicVars.Block.BaseValue += _accumulatedBlock;
     }
 
     protected override void OnUpgrade()

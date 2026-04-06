@@ -94,7 +94,7 @@
 	"MINORIS-CARD047_SMALL_FREEZE_DRIED.title": "Small Freeze-Dried",
 	"MINORIS-CARD047_SMALL_FREEZE_DRIED.description": "Gain{VigorPower:diff()}Vigor",
 	"MINORIS-CARD048_CARDBOARD_HOUSE.title": "Cardboard House",
-	"MINORIS-CARD048_CARDBOARD_HOUSE.description": "Gain{Block:diff()}[gold]Block[/gold] per attack played this turn ({TotalBlockFinal:diff()}total).",
+	"MINORIS-CARD048_CARDBOARD_HOUSE.description": "Gain{Block:diff()} [gold]Block[/gold]. Each time you've played this card this combat, the next time reduces Block by {Decrease:diff()}.",
 	"MINORIS-CARD049_STRESS_RESPONSE.title": "Stress Response",
 	"MINORIS-CARD049_STRESS_RESPONSE.description": "This turn, whenever you play a card, lose 1 HP and gain{Amount:diff()}[gold]Block[/gold].",
 	"MINORIS-CARD050_BANDAGE_HEAL.title": "Bandage Heal",

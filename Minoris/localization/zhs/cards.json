@@ -94,7 +94,7 @@
 	"MINORIS-CARD047_SMALL_FREEZE_DRIED.title": "小块冻干",
 	"MINORIS-CARD047_SMALL_FREEZE_DRIED.description": "获得{VigorPower:diff()}点[gold]活力[/gold]",
 	"MINORIS-CARD048_CARDBOARD_HOUSE.title": "纸壳屋",
-	"MINORIS-CARD048_CARDBOARD_HOUSE.description": "本回合每打出1张[gold]攻击牌[/gold]获得{Block:diff()}点[gold]格挡[/gold]（共{TotalBlockFinal:diff()}点）；",
+	"MINORIS-CARD048_CARDBOARD_HOUSE.description": "获得{Block:diff()}点[gold]格挡[/gold]。本场战斗中每打出过一次本牌，下一次减少获得{Decrease:diff()}点[gold]格挡[/gold]。",
 	"MINORIS-CARD049_STRESS_RESPONSE.title": "应激反应",
 	"MINORIS-CARD049_STRESS_RESPONSE.description": "本回合中，每当你打出一张牌时，失去 1 点生命，获得{Amount:diff()}点[gold]格挡[/gold]。",
 	"MINORIS-CARD050_BANDAGE_HEAL.title": "包扎愈合",
