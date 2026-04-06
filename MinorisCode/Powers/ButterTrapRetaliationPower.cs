@@ -21,8 +21,8 @@ public class ButterTrapRetaliationPower : MinorisPower
         if (dealer == null) return;
         if (CombatState != null && CombatState.CurrentSide != Owner.Side)
         {
-            await PowerCmd.Apply<WeakPower>(dealer, Amount, Owner, null);
-            await PowerCmd.Apply<VulnerablePower>(dealer, Amount, Owner, null);
+            await PowerCmd.Apply<WeakPower>(dealer, 2 * Amount, Owner, null);
+            await PowerCmd.Apply<VulnerablePower>(dealer, 2 * Amount, Owner, null);
         }
     }
 

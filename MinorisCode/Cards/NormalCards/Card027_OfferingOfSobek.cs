@@ -17,7 +17,6 @@ tag标签:
 */
 public class Card027_OfferingOfSobek() : MinorisCard(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
 {
-    private const string BonusKey = "SobekBonus";
     private int _permanentBonus;
 
     [SavedProperty]
@@ -28,15 +27,19 @@ public class Card027_OfferingOfSobek() : MinorisCard(2, CardType.Attack, CardRar
         {
             AssertMutable();
             _permanentBonus = value;
-            DynamicVars[BonusKey].BaseValue = value;
+            DynamicVars.ExtraDamage.BaseValue = value;
         }
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(12m, ValueProp.Move),
-        new IntVar(BonusKey, 0)
+        new CalculationBaseVar(12m),
+        new ExtraDamageVar(0m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalcDamageMultiplier)
     ];
+    
+    private static decimal CalcDamageMultiplier(CardModel card, Creature? target) => 1m;
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (CombatState == null) return;
@@ -58,7 +61,7 @@ public class Card027_OfferingOfSobek() : MinorisCard(2, CardType.Attack, CardRar
                 }
             }
         }
-        var total = DynamicVars.Damage.IntValue + DynamicVars[BonusKey].IntValue;
+        var total = (int)DynamicVars.CalculationBase.BaseValue + (int)DynamicVars.ExtraDamage.BaseValue;
         await DamageCmd.Attack(total).FromCard(this).TargetingAllOpponents(CombatState).Execute(choiceContext);
     }
     protected override void OnUpgrade()

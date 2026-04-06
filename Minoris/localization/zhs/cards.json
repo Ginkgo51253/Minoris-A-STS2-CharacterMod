@@ -52,7 +52,7 @@
 	"MINORIS-CARD026_DIVINE_LIGHT.title": "神之光",
 	"MINORIS-CARD026_DIVINE_LIGHT.description": "造成{Damage:diff()}点伤害{Hits:diff()}次。本场战斗中你每打出过一张“抓挠”攻击牌，本牌额外造成 1 次伤害。",
 	"MINORIS-CARD027_OFFERING_OF_SOBEK.title": "索贝克的供奉",
-	"MINORIS-CARD027_OFFERING_OF_SOBEK.description": "对所有敌人造成{Damage:diff()}点伤害。选择一张[gold]手牌[/gold]消耗。本卡的数值永久提升等同于消耗卡牌的费用的数值",
+	"MINORIS-CARD027_OFFERING_OF_SOBEK.description": "对所有敌人造成{CalculatedDamage:diff()}点伤害。选择一张[gold]手牌[/gold]消耗。本卡的数值永久提升等同于消耗卡牌的费用的数值",
 	"MINORIS-CARD028_HAMMER_OF_GODS.title": "神的锻锤",
 	"MINORIS-CARD028_HAMMER_OF_GODS.description": "造成{Damage:diff()}点伤害。这张牌可以无限次升级。这张牌会保留战斗中的升级。",
 	"MINORIS-CARD029_WRATH_OF_VENGEANCE.title": "复仇之怒",
