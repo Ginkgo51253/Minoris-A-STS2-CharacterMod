@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -21,7 +21,9 @@ public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRa
     
     protected override IEnumerable<DynamicVar> CanonicalVars => 
         [new DamageVar(16m, ValueProp.Move),
-         new IntVar(HitsKey, 1)];
+         new CalculationBaseVar(1m),
+         new CalculationExtraVar(1m),
+         new CalculatedVar(HitsKey).WithMultiplier(CalcHitsMultiplier)];
     private int _totalTriggersThisCombat;
 
     private int GetDamageTakenThisCombat()
@@ -32,7 +34,14 @@ public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRa
             .Count(e => e.Receiver == Owner.Creature && e.Result.UnblockedDamage > 0);
     }
 
-
+    private static decimal CalcHitsMultiplier(CardModel card, Creature? target)
+    {
+        if (card.Owner?.Creature == null) return 0m;
+        if (!CombatManager.Instance.IsInProgress) return 0m;
+        return CombatManager.Instance.History.Entries
+            .OfType<MegaCrit.Sts2.Core.Combat.History.Entries.DamageReceivedEntry>()
+            .Count(e => e.Receiver == card.Owner.Creature && e.Result.UnblockedDamage > 0);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -60,7 +69,6 @@ public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRa
         DynamicVars.Damage.UpgradeValueBy(8m);
     }
 }
-
 
 
 

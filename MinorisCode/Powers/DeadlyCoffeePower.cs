@@ -19,7 +19,7 @@ public class DeadlyCoffeePower : MinorisPower
         if (Owner.Side != side) return;
         if (Amount > 0)
         {
-            await CreatureCmd.Damage(choiceContext, new[] { Owner }, Amount, ValueProp.Unblockable | ValueProp.Unpowered, Owner);
+            await CreatureCmd.Damage(choiceContext, new[] { Owner }, Amount, ValueProp.Unpowered, Owner);
         }
         RemoveInternal();
     }

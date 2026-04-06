@@ -17,7 +17,12 @@ tag标签:
 */
 public class Card026_DivineLight() : MinorisCard(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, ValueProp.Move)];
+    private const string HitsKey = "Hits";
+    protected override IEnumerable<DynamicVar> CanonicalVars => 
+        [new DamageVar(6m, ValueProp.Move),
+         new CalculationBaseVar(1m),
+         new CalculationExtraVar(1m),
+         new CalculatedVar(HitsKey).WithMultiplier(CalcHitsMultiplier)];
     
 
     
@@ -30,12 +35,18 @@ public class Card026_DivineLight() : MinorisCard(1, CardType.Attack, CardRarity.
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target).WithHitCount(hits).Execute(choiceContext);
     }
 
+    private static decimal CalcHitsMultiplier(CardModel card, Creature? target)
+    {
+        if (!CombatManager.Instance.IsInProgress) return 0m;
+        var history = CombatManager.Instance.History.CardPlaysStarted;
+        return history.Count(e => e.CardPlay.Card.Owner == card.Owner && e.CardPlay.Card.Type == CardType.Attack && e.CardPlay.Card.GetType().Name.Contains("Scratch"));
+    }
+
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }
-
 
 
 

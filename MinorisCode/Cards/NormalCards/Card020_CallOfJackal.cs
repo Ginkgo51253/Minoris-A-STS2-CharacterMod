@@ -21,9 +21,17 @@ public class Card020_CallOfJackal() : MinorisCard(1, CardType.Attack, CardRarity
     
     protected override IEnumerable<DynamicVar> CanonicalVars => 
         [new DamageVar(7m, ValueProp.Move),
-         new IntVar(HitsKey, 1)];
+         new CalculationBaseVar(1m),
+         new CalculationExtraVar(1m),
+         new CalculatedVar(HitsKey).WithMultiplier(CalcHitsMultiplier)];
     public override bool ShouldReceiveCombatHooks => true;
     private int _extraHits;
+    private static decimal CalcHitsMultiplier(CardModel card, Creature? target)
+    {
+        if (!CombatManager.Instance.IsInProgress) return 0m;
+        if (card is Card020_CallOfJackal c) return c._extraHits;
+        return 0m;
+    }
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;
@@ -41,7 +49,6 @@ public class Card020_CallOfJackal() : MinorisCard(1, CardType.Attack, CardRarity
         DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }
-
 
 
 

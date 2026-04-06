@@ -50,7 +50,7 @@
 	"MINORIS-CARD025_SUN_LENS.title": "Sun Lens",
 	"MINORIS-CARD025_SUN_LENS.description": "Deal{Damage:diff()}damage to ALL enemies. If an enemy is killed, gain{Energy:energyIcons()}.",
 	"MINORIS-CARD026_DIVINE_LIGHT.title": "Divine Light",
-	"MINORIS-CARD026_DIVINE_LIGHT.description": "Deal{Damage:diff()}damage. For each \"Scratch\" Attack you played this combat, deal 1 additional hit.",
+	"MINORIS-CARD026_DIVINE_LIGHT.description": "Deal{Damage:diff()}damage{Hits:diff()}times. For each \"Scratch\" Attack you played this combat, deal 1 additional hit.",
 	"MINORIS-CARD027_OFFERING_OF_SOBEK.title": "Offering of Sobek",
 	"MINORIS-CARD027_OFFERING_OF_SOBEK.description": "Deal{Damage:diff()}damage to ALL enemies. Exhaust 1 card from your hand. Permanently increase this card's value by that card's cost",
 	"MINORIS-CARD028_HAMMER_OF_GODS.title": "Hammer of the Gods",
