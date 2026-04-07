@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿
+﻿﻿﻿
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -25,7 +25,9 @@ public class Card056_12_TothSlateXiii() : MinorisCard(3, CardType.Power, CardRar
     private const string DamageKey = "Damage";
     private const string EnergyKey = "Energy";
     private const string HealKey = "Heal";
+    private const string ExhaustKey = "Exhaust";
     private const string StrengthKey = "Strength";
+    private const string DrawKey = "Draw";
     private const string DexterityKey = "Dexterity";
     private const string VigorKey = "Vigor";
     private const string ArtifactKey = "Artifact";
@@ -37,23 +39,23 @@ public class Card056_12_TothSlateXiii() : MinorisCard(3, CardType.Power, CardRar
         new IntVar(DamageKey, 5),
         new EnergyVar(EnergyKey, 1),
         new IntVar(HealKey, 2),
+        new IntVar(ExhaustKey, 1),
         new IntVar(StrengthKey, 1),
+        new IntVar(DrawKey, 1),
         new IntVar(DexterityKey, 1),
         new IntVar(VigorKey, 4),
         new IntVar(ArtifactKey, 1)
     ];
 
-    public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, CardKeyword.Ethereal];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.TothSlateXIIIPower>(Owner.Creature, 3, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.TothSlateXiiiPower>(Owner.Creature, DynamicVars[AmountKey].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
     }
 }
-
 
 
 

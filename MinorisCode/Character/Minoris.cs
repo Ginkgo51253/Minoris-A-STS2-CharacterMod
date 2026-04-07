@@ -15,24 +15,38 @@ public class Minoris : PlaceholderCharacterModel
 {
     public const string CharacterId = "MINORIS";
 
+    // 角色名显示色（用于角色名、卡牌能量前缀等主色调）
     public static readonly Color Color = new("ffe100");
+    // 能量球外圈描边色（能量为0时仍用于描边）
     public static readonly Color EnergyOutlineColor = new("4B4511FF");
+    // 能量数值文字描边色（见 NEnergyCounter.RefreshLabel()）
     public static readonly Color EnergyLabelOutline = new("4B4511FF");
+    // 事件/对话文本色（见 CharacterModel.DialogueColor）
     public static readonly Color Dialogue = new("7A4E00FF");
+    // 地图手绘标记色（见 CharacterModel.MapDrawingColor）
     public static readonly Color MapDrawing = new("F5F50AFF");
+    // 远程指向线主色（联机目标指示线，见 NRemoteTargetingIndicator）
     public static readonly Color RemoteTargetingLine = new("FFE07AFF");
+    // 远程指向线描边色（联机目标指示线背面描边）
     public static readonly Color RemoteTargetingOutline = new("4B4511FF");
     private const string DefaultCharUiIcon = "char_select_minoris.png";
 
+    // 角色名色
     public override Color NameColor => Color;
+    // 能量数字描边色
     public override Color EnergyLabelOutlineColor => EnergyLabelOutline;
+    // 事件对白文本色
     public override Color DialogueColor => Dialogue;
+    // 地图绘制颜色
     public override Color MapDrawingColor => MapDrawing;
+    // 联机指向线颜色
     public override Color RemoteTargetingLineColor => RemoteTargetingLine;
+    // 联机指向线描边颜色
     public override Color RemoteTargetingLineOutline => RemoteTargetingOutline;
     public override CharacterGender Gender => CharacterGender.Masculine;
     public override int StartingHp => 70;
 
+    // 自定义能量球：按层数获取纹理路径，并注入外圈描边色与主色
     public override CustomEnergyCounter? CustomEnergyCounter =>
         new CustomEnergyCounter(EnergyCounterLayerPath, EnergyOutlineColor, Color);
     
@@ -86,6 +100,7 @@ public class Minoris : PlaceholderCharacterModel
         "vfx/vfx_rock_shatter"
     ];
 
+    // 能量球层贴图路径解析：将第4层替换为第5层，其余保持一致
     private string EnergyCounterLayerPath(int layer)
     {
         var actualLayer = layer == 4 ? 5 : layer;

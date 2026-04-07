@@ -28,6 +28,7 @@ public class Card059_Fortune() : MinorisCard(4, CardType.Skill, CardRarity.Rare,
         var candidates = Owner.Character.CardPool
             .GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
             .Where(c => c.Rarity != CardRarity.Token && c.Rarity != CardRarity.Ancient && c.Rarity != CardRarity.Event)
+            .Where(c => c.Id != this.Id)
             .ToList();
         if (candidates.Count == 0) return;
 
@@ -57,7 +58,6 @@ public class Card059_Fortune() : MinorisCard(4, CardType.Skill, CardRarity.Rare,
         if (pick != null) await CardCmd.AutoPlay(choiceContext, pick, null);
     }
 }
-
 
 
 
