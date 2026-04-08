@@ -77,17 +77,3 @@ public class WildFormPower : MinorisPower
         if (discard != null) discard.CardAdded += ProcessIfAttack;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

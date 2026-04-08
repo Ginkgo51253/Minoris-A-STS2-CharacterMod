@@ -21,6 +21,7 @@ public class SolarFormPower : MinorisPower
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (player != Owner.Player || CombatState == null) return;
+        Flash();
         var all = player.Character.CardPool
             .GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
             .Where(c => c.CanBeGeneratedInCombat)
@@ -43,7 +44,7 @@ public class SolarFormPower : MinorisPower
             if (upgradeCard) CardCmd.Upgrade(card);
             card.EnergyCost.SetThisCombat(0);
             card.AddKeyword(CardKeyword.Ethereal);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, false, CardPilePosition.Top));
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, true, CardPilePosition.Top);
         }
 
         for (var i = 0; i < countPerType; i++)
@@ -59,6 +60,6 @@ public class SolarFormPower : MinorisPower
             await CreateAndAdd(pickP, false);
         }
 
-        Flash();
+        
     }
 }

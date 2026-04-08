@@ -21,11 +21,11 @@ public class ToyClawPower : MinorisPower
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
         if (player != Owner.Player || CombatState == null) return;
-
+        Flash();
         for (int i = 0; i < Amount; i++)
         {
             var scratch = CombatState.CreateCard<Minoris.MinorisCode.Cards.Card062_1_Scratch>(Owner.Player);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(scratch, PileType.Hand, false, CardPilePosition.Top));
+            await CardPileCmd.AddGeneratedCardToCombat(scratch, PileType.Hand, true, CardPilePosition.Top);
         }
     }
 }
