@@ -54,7 +54,7 @@ if "%PACK%"=="1" (
   if defined GODOT_PATH (
     set "GODOT_EXE=%GODOT_PATH%"
   ) else (
-    set "GODOT_EXE=%CD%\..\..\AgentTheSpire\AgentTheSpire-main\godot\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64_console.exe"
+    set "GODOT_EXE=%CD%\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64_console.exe"
   )
 
   if not exist "!GODOT_EXE!" (

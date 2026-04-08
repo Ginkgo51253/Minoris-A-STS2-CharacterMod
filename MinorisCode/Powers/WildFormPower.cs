@@ -1,4 +1,4 @@
-﻿﻿
+﻿
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -19,7 +19,7 @@ public class WildFormPower : MinorisPower
     {
         if (power == this && Amount != 1)
         {
-            Amount = 1;
+            SetAmount(1);
         }
         if (power == this && !_subscribed && Owner?.Player != null && CombatManager.Instance.IsInProgress)
         {

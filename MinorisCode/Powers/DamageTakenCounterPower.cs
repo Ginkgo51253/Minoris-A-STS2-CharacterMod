@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -18,7 +18,7 @@ public class DamageTakenCounterPower : MinorisPower
     {
         if (target != Owner) return;
         if (result.UnblockedDamage <= 0) return;
-        Amount++;
+        SetAmount(Amount + 1);
         await Task.CompletedTask;
     }
 }

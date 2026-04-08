@@ -83,12 +83,6 @@
     <None Include="project.godot" />
   </ItemGroup>
 
-  <Target Name="CopyToModsFolderOnBuild" AfterTargets="Build" Condition="Exists('$(ModsPath)')">
-    <Message Text="Copying .dll and manifest to mods folder." Importance="high" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" ContinueOnError="true" />
-    <Copy SourceFiles="Minoris.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" ContinueOnError="true" />
-  </Target>
-
   <Target Name="VerifyBaseLibVersion" AfterTargets="Build">
     <PropertyGroup>
       <GameModsBaseLibManifest>$(GameModsPath)BaseLib\BaseLib.json</GameModsBaseLibManifest>
