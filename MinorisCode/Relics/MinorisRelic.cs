@@ -1,9 +1,3 @@
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using Godot;
-using Minoris.MinorisCode.Character;
-using Minoris.MinorisCode.Extensions;
-
 namespace Minoris.MinorisCode.Relics;
 
 [BaseLib.Utils.Pool(typeof(MinorisRelicPool))]
@@ -15,6 +9,8 @@ public abstract class MinorisRelic : CustomRelicModel
     {
         get
         {
+            var atlas = $"res://atlases/relic_atlas.sprites/{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres";
+            if (ResourceLoader.Exists(atlas)) return atlas;
             var explicitPath = $"{Id.Entry}_S.png".RelicImagePath();
             if (ResourceLoader.Exists(explicitPath)) return explicitPath;
 
@@ -27,6 +23,8 @@ public abstract class MinorisRelic : CustomRelicModel
     {
         get
         {
+            var atlas = $"res://atlases/relic_outline_atlas.sprites/{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres";
+            if (ResourceLoader.Exists(atlas)) return atlas;
             var explicitPath = $"{Id.Entry}_S_outline.png".RelicImagePath();
             if (ResourceLoader.Exists(explicitPath)) return explicitPath;
 

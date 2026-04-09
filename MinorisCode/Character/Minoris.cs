@@ -104,6 +104,6 @@ public class Minoris : PlaceholderCharacterModel
     private string EnergyCounterLayerPath(int layer)
     {
         var actualLayer = layer == 4 ? 5 : layer;
-        return $"ui/combat/energy_counters/minoris_orb_layer_{actualLayer}.png".ImagePath();
+        return $"ui/energy/minoris_orb_layer_{actualLayer}.png".ImagePath();
     }
 }

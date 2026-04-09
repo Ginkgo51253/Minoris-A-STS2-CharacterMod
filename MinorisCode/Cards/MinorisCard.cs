@@ -8,6 +8,31 @@ public abstract class MinorisCard(int cost, CardType type, CardRarity rarity, Ta
 {
     private const string DefaultCardPortraitPath = "res://images/packed/card_portraits/beta.png";
 
+    private string AtlasPortraitPath(bool beta)
+    {
+        var poolTitle = Pool.Title.ToLowerInvariant();
+        var id = Id.Entry.ToLowerInvariant();
+        var stem = GetCardPortraitFileStem()?.ToLowerInvariant();
+        if (beta)
+        {
+            if (stem != null)
+            {
+                var byStem = $"res://atlases/card_atlas.sprites/{poolTitle}/beta/{stem}.tres";
+                if (ResourceLoader.Exists(byStem)) return byStem;
+            }
+            return $"res://atlases/card_atlas.sprites/{poolTitle}/beta/{id}.tres";
+        }
+        else
+        {
+            if (stem != null)
+            {
+                var byStem = $"res://atlases/card_atlas.sprites/{poolTitle}/{stem}.tres";
+                if (ResourceLoader.Exists(byStem)) return byStem;
+            }
+            return $"res://atlases/card_atlas.sprites/{poolTitle}/{id}.tres";
+        }
+    }
+
     private string? GetCardPortraitFileStem()
     {
         var name = GetType().Name;
@@ -62,11 +87,23 @@ public abstract class MinorisCard(int cost, CardType type, CardRarity rarity, Ta
         ResolveNumberedPortraitPath(big: false, beta: false) ??
         DefaultCardPortraitPath;
 
-    public override string PortraitPath =>
-        ResolveNumberedPortraitPath(big: false, beta: false) ??
-        DefaultCardPortraitPath;
+    public override string PortraitPath
+    {
+        get
+        {
+            var atlas = AtlasPortraitPath(beta: false);
+            if (ResourceLoader.Exists(atlas)) return atlas;
+            return ResolveNumberedPortraitPath(big: false, beta: false) ?? DefaultCardPortraitPath;
+        }
+    }
 
-    public override string BetaPortraitPath =>
-        ResolveNumberedPortraitPath(big: false, beta: true) ??
-        PortraitPath;
+    public override string BetaPortraitPath
+    {
+        get
+        {
+            var atlas = AtlasPortraitPath(beta: true);
+            if (ResourceLoader.Exists(atlas)) return atlas;
+            return ResolveNumberedPortraitPath(big: false, beta: true) ?? PortraitPath;
+        }
+    }
 }

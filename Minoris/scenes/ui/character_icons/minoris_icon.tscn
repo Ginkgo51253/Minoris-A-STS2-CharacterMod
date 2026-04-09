@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://o0328iq3axku"]
 
-[ext_resource type="Texture2D" path="res://Minoris/images/charui/character_icon_minoris.png" id="1_mnrs0"]
+[ext_resource type="Texture2D" uid="uid://bkrdk20pk3wor" path="res://Minoris/images/ui/top_panel/character_icon_minoris.png" id="1_6md8f"]
 
 [node name="MinorisIcon" type="TextureRect"]
 anchors_preset = 15
@@ -9,6 +9,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_mnrs0")
+texture = ExtResource("1_6md8f")
 expand_mode = 1
 stretch_mode = 5

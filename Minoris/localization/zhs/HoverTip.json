@@ -1,6 +1,6 @@
 {
   "MINORIS-HOVERTIP-STRESS_RESPONSE": "本回合中，每当你打出一张牌时，失去{HpLoss}点生命，获得{Block}点格挡。",
-  "MINORIS-HOVERTIP-APOPHIS_ARRIVES": "每回合：对所有敌人造成{Amount}点伤害\n倒计时：{Turns}\n倒计时归零时，自身失去{Amount}点生命",
+  "MINORIS-HOVERTIP-APOPHIS_ARRIVES": "倒计时：{Turns}，倒计时归零时，自身失去{Amount}点生命",
   "MINORIS-HOVERTIP-TOY_CLAW": "每回合开始时，置入{Amount}张“抓挠”到手牌",
   "MINORIS-HOVERTIP-SANDSTORM": "本回合受到伤害减半",
   "MINORIS-HOVERTIP-KITTEN_KNIFE": "攻击造成未被格挡的伤害时，额外对目标造成{Amount}点伤害",

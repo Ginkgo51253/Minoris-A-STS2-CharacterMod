@@ -21,7 +21,9 @@ public class Card073_ApophisArrives() : MinorisCard(3, CardType.Power, CardRarit
     
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.ApophisArrivesPower>(Owner.Creature, DynamicVars["ApophisArrivesPower"].IntValue, Owner.Creature, this);
+        var amount = DynamicVars["ApophisArrivesPower"].IntValue;
+        await PowerCmd.Apply<Powers.ApophisArrivesPower>(Owner.Creature, amount, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.ApophisArrivesSelfDamagePower>(Owner.Creature, amount, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
@@ -29,7 +31,6 @@ public class Card073_ApophisArrives() : MinorisCard(3, CardType.Power, CardRarit
         DynamicVars["ApophisArrivesPower"].UpgradeValueBy(10m);
     }
 }
-
 
 
 

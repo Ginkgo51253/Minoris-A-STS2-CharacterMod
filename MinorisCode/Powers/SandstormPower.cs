@@ -5,8 +5,8 @@ namespace Minoris.MinorisCode.Powers;
 /*
 能力中文名称: 沙暴
 能力英文名称: Sandstorm
-能力描述(ZHS): 本回合中，你受到的伤害减半。回合结束时移除。
-能力描述(ENG): This turn, you take half damage. Remove at end of turn.
+能力描述(ZHS): 本回合中，你受到的伤害减半。玩家回合开始时移除。
+能力描述(ENG): This turn, you take half damage. Remove at the start of player's turn.
 相关卡牌（本地键）: MINORIS-CARD069_1_SANDSTORM
 */
 public class SandstormPower : MinorisPower

@@ -63,7 +63,9 @@ public class TothSlateXiiiPower : MinorisPower
             if (enemies.Count > 0 && Owner.Player != null)
             {
                 var target = Owner.Player.RunState.Rng.CombatTargets.NextItem(enemies);
-                await CreatureCmd.Damage(choiceContext, target, _damage, ValueProp.Move, Owner);
+                var strength = Owner.GetPowerAmount<StrengthPower>();
+                var effectiveDamage = _damage + (strength > 0 ? strength : 0);//伤害加上力量
+                await CreatureCmd.Damage(choiceContext, target, effectiveDamage, ValueProp.Unpowered, Owner);
                 await CheckWinConditionIfCombatEnding();
                 if (!CombatManager.Instance.IsInProgress) return;
             }
@@ -107,7 +109,6 @@ public class TothSlateXiiiPower : MinorisPower
         Flash();
     }
 }
-
 
 
 

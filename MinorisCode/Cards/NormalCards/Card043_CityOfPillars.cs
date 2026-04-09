@@ -15,7 +15,7 @@ tag标签:
 卡牌描述(ENG): Transform ALL cards in your hand
 升级效果: 移除消耗
 */
-public class Card043_CityOfPillars() : MinorisCard(0, CardType.Skill, CardRarity.Rare, TargetType.None)
+public class Card043_CityOfPillars() : MinorisCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.None)
 {
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     

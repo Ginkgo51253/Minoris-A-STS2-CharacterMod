@@ -1,0 +1,12 @@
+{
+  "MINORIS-BOTTLED_SANDSTORM.title": "Bottled Sandstorm",
+  "MINORIS-BOTTLED_SANDSTORM.description": "Gain: This turn, you take 50% damage.",
+
+  "MINORIS-BOTTLED_SALT.title": "Bottled Salt",
+  "MINORIS-BOTTLED_SALT.description": "Transform any number of cards in your hand.",
+  "MINORIS-BOTTLED_SALT.selectionScreenPrompt": "Choose any number of cards to transform.",
+
+  "MINORIS-BOTTLED_SUNLIGHT.title": "Bottled Sunlight",
+  "MINORIS-BOTTLED_SUNLIGHT.description": "Choose a card from your Draw Pile to add to your hand. It is free to play this turn.",
+  "MINORIS-BOTTLED_SUNLIGHT.selectionScreenPrompt": "Choose a card to add to your hand."
+}

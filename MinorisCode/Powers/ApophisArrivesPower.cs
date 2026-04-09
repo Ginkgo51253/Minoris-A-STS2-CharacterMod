@@ -1,4 +1,4 @@
-﻿﻿﻿﻿
+﻿﻿﻿﻿﻿﻿
 namespace Minoris.MinorisCode.Powers;
 
 
@@ -13,14 +13,7 @@ public class ApophisArrivesPower : MinorisPower
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override bool IsInstanced => true;
-    private int _turnsUntilSelfDamage = 3;
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        new HoverTip(this, (new LocString("HoverTip", "MINORIS-HOVERTIP-APOPHIS_ARRIVES").ToString() ?? string.Empty)
-            .Replace("{Amount}", Amount.ToString())
-            .Replace("{Turns}", _turnsUntilSelfDamage.ToString()), isSmart: false)
-    ];
+    
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
@@ -31,19 +24,7 @@ public class ApophisArrivesPower : MinorisPower
         if (!CombatManager.Instance.IsInProgress) return;
         Flash();
     }
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-    {
-        if (player != Owner.Player) return;
-        _turnsUntilSelfDamage = System.Math.Max(0, _turnsUntilSelfDamage - 1);
-        if (_turnsUntilSelfDamage == 0)
-        {
-            await CreatureCmd.Damage(choiceContext, new[] { Owner }, Amount, ValueProp.Unpowered, Owner);
-            Flash();
-            _turnsUntilSelfDamage = 3;
-        }
-    }
 }
-
 
 
 

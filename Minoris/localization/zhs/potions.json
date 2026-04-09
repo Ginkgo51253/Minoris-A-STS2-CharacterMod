@@ -1,0 +1,12 @@
+{
+  "MINORIS-BOTTLED_SANDSTORM.title": "瓶装沙暴",
+  "MINORIS-BOTTLED_SANDSTORM.description": "在本回合中只会受到50%的伤害",
+
+  "MINORIS-BOTTLED_SALT.title": "瓶装精盐",
+  "MINORIS-BOTTLED_SALT.description": "变化任意张手牌",
+  "MINORIS-BOTTLED_SALT.selectionScreenPrompt": "选择任意张要变化的手牌",
+
+  "MINORIS-BOTTLED_SUNLIGHT.title": "瓶装阳光",
+  "MINORIS-BOTTLED_SUNLIGHT.description": "从你的抽牌堆选择一张牌加入手牌，那张牌在本回合可以免费打出",
+  "MINORIS-BOTTLED_SUNLIGHT.selectionScreenPrompt": "选择一张牌加入手牌"
+}

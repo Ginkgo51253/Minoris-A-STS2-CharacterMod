@@ -1,6 +1,6 @@
 {
   "MINORIS-HOVERTIP-STRESS_RESPONSE": "This turn, whenever you play a card, lose {HpLoss} HP and gain {Block} Block.",
-  "MINORIS-HOVERTIP-APOPHIS_ARRIVES": "Each turn: Deal {Amount} damage to ALL enemies\nCountdown: {Turns}\nWhen countdown reaches 0: Lose {Amount} HP",
+  "MINORIS-HOVERTIP-APOPHIS_ARRIVES": "Countdown: {Turns}, When countdown reaches 0: Lose {Amount} HP",
   "MINORIS-HOVERTIP-TOY_CLAW": "At start of turn, add {Amount} \"Scratch\" to hand",
   "MINORIS-HOVERTIP-SANDSTORM": "This turn, take half damage",
   "MINORIS-HOVERTIP-KITTEN_KNIFE": "When your Attack deals unblocked damage, deal {Amount} additional damage to the target",

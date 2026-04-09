@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿namespace Minoris.MinorisCode.Powers;
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿namespace Minoris.MinorisCode.Powers;
 
 
 public abstract class MinorisPower : CustomPowerModel
@@ -9,8 +9,10 @@ public abstract class MinorisPower : CustomPowerModel
     {
         get
         {
-            var path = $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
-            return ResourceLoader.Exists(path) ? path : MissingPowerIconPath;
+            var atlas = $"res://atlases/power_atlas.sprites/{Id.Entry.ToLowerInvariant()}.tres";
+            if (ResourceLoader.Exists(atlas)) return atlas;
+            var png = $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
+            return ResourceLoader.Exists(png) ? png : MissingPowerIconPath;
         }
     }
 
@@ -31,4 +33,3 @@ public abstract class MinorisPower : CustomPowerModel
         await CombatManager.Instance.CheckWinCondition();
     }
 }
-
