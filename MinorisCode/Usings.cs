@@ -39,7 +39,9 @@ global using Minoris.MinorisCode.Relics;
 global using Minoris.MinorisCode.Powers;
 global using Minoris.MinorisCode.Potions;
 global using Minoris.MinorisCode.Extensions;
+global using Minoris.MinorisCode.Animations;
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
+
