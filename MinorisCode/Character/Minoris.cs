@@ -29,8 +29,6 @@ public class Minoris : PlaceholderCharacterModel
     public static readonly Color RemoteTargetingLine = new("FFE07AFF");
     // 远程指向线描边色（联机目标指示线背面描边）
     public static readonly Color RemoteTargetingOutline = new("4B4511FF");
-    private const string DefaultCharUiIcon = "char_select_minoris.png";
-
     // 角色名色
     public override Color NameColor => Color;
     // 能量数字描边色
@@ -81,6 +79,16 @@ public class Minoris : PlaceholderCharacterModel
         ResourceLoader.Exists("res://Minoris/scenes/ui/character_icons/minoris_icon.tscn")
             ? "res://Minoris/scenes/ui/character_icons/minoris_icon.tscn"
             : base.CustomIconPath;
+
+    //public override string? CustomMerchantAnimPath =>
+    //    ResourceLoader.Exists("res://Minoris/scenes/merchant/characters/minoris_merchant.tscn")
+    //        ? "res://Minoris/scenes/merchant/characters/minoris_merchant.tscn"
+    //        : null;
+	//
+    //public override string? CustomRestSiteAnimPath =>
+    //    ResourceLoader.Exists("res://Minoris/scenes/rest_site/characters/minoris_rest_site.tscn")
+    //        ? "res://Minoris/scenes/rest_site/characters/minoris_rest_site.tscn"
+    //        : null;
 
     public override string? CustomIconTexturePath => ResourceLoader.Exists("character_icon_minoris.png".CharacterUiPath()) ? "character_icon_minoris.png".CharacterUiPath() : base.CustomIconTexturePath;
     public override string? CustomCharacterSelectIconPath => ResourceLoader.Exists("char_select_minoris.png".CharacterUiPath()) ? "char_select_minoris.png".CharacterUiPath() : base.CustomCharacterSelectIconPath;

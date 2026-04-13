@@ -48,7 +48,7 @@
 	"MINORIS-CARD024_HURRICANE_STRIKE.title": "飓风打击",
 	"MINORIS-CARD024_HURRICANE_STRIKE.description": "对所有敌人造成{Damage:diff()}点伤害{HitsPerX:diff()}X次。",
 	"MINORIS-CARD025_SUN_LENS.title": "阳光透镜",
-	"MINORIS-CARD025_SUN_LENS.description": "对所有敌人造成{Damage:diff()}点伤害。若消灭了敌人，获得{Energy:energyIcons()}。",
+	"MINORIS-CARD025_SUN_LENS.description": "对所有敌人造成{Damage:diff()}点伤害。每消灭一个敌人，抽{Energy:diff()}张牌并获得{Energy:energyIcons()}。",
 	"MINORIS-CARD026_DIVINE_LIGHT.title": "神之光",
 	"MINORIS-CARD026_DIVINE_LIGHT.description": "造成{Damage:diff()}点伤害{Hits:diff()}次。本场战斗中你每打出过一张“抓挠”攻击牌，本牌额外造成 1 次伤害。",
 	"MINORIS-CARD027_OFFERING_OF_SOBEK.title": "索贝克的供奉",

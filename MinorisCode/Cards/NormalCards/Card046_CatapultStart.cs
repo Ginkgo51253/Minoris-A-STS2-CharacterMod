@@ -17,7 +17,7 @@ tag标签:
 */
 public class Card046_CatapultStart() : MinorisCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.None)
 {
-    public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Innate, CardKeyword.Exhaust];
     public override int MaxUpgradeLevel => int.MaxValue;
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
     

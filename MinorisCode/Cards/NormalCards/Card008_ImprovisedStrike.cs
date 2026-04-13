@@ -23,7 +23,10 @@ public class Card008_ImprovisedStrike() : MinorisCard(1, CardType.Attack, CardRa
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target).Execute(choiceContext);
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this)
+            .Targeting(cardPlay.Target)
+            .Execute(choiceContext);
         if (CombatState == null) return;
         bool IsStrikeName(string title)
         {
@@ -31,8 +34,8 @@ public class Card008_ImprovisedStrike() : MinorisCard(1, CardType.Attack, CardRa
             return title.Contains("打击") || title.Contains("Strike", StringComparison.OrdinalIgnoreCase);
         }
 
-        var candidates = Owner.Character.CardPool
-            .GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
+        var candidates = Owner.UnlockState.CardPools
+            .SelectMany(p => p.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint))
             .Where(c => c.GetType() != typeof(Card008_ImprovisedStrike))
             .Where(c => c.CanBeGeneratedInCombat)
             .Where(c => c.Rarity != CardRarity.Basic && c.Rarity != CardRarity.Ancient && c.Rarity != CardRarity.Event && c.Rarity != CardRarity.Token)
@@ -41,8 +44,11 @@ public class Card008_ImprovisedStrike() : MinorisCard(1, CardType.Attack, CardRa
         if (candidates.Count > 0)
         {
             var pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(candidates);
-            var card = CombatState.CreateCard(pick, Owner);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, false, CardPilePosition.Top));
+            if (pick != null)
+            {
+                var card = CombatState.CreateCard(pick, Owner);
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, false, CardPilePosition.Top));
+            }
         }
     }
     protected override void OnUpgrade()
@@ -50,7 +56,6 @@ public class Card008_ImprovisedStrike() : MinorisCard(1, CardType.Attack, CardRa
         EnergyCost.UpgradeBy(-1);
     }
 }
-
 
 
 

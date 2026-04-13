@@ -48,7 +48,7 @@
 	"MINORIS-CARD024_HURRICANE_STRIKE.title": "Hurricane Strike",
 	"MINORIS-CARD024_HURRICANE_STRIKE.description": "Deal{Damage:diff()}damage to ALL enemies{HitsPerX:diff()}X times.",
 	"MINORIS-CARD025_SUN_LENS.title": "Sun Lens",
-	"MINORIS-CARD025_SUN_LENS.description": "Deal{Damage:diff()}damage to ALL enemies. If an enemy is killed, gain{Energy:energyIcons()}.",
+	"MINORIS-CARD025_SUN_LENS.description": "Deal{Damage:diff()}damage to ALL enemies. For each enemy killed, draw {Energy:diff()} card and gain{Energy:energyIcons()}.",
 	"MINORIS-CARD026_DIVINE_LIGHT.title": "Divine Light",
 	"MINORIS-CARD026_DIVINE_LIGHT.description": "Deal{Damage:diff()}damage{Hits:diff()}times. For each \"Scratch\" Attack you played this combat, deal 1 additional hit.",
 	"MINORIS-CARD027_OFFERING_OF_SOBEK.title": "Offering of Sobek",

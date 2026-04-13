@@ -20,7 +20,7 @@ public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRa
     private const string HitsKey = "Hits";
     
     protected override IEnumerable<DynamicVar> CanonicalVars => 
-        [new DamageVar(16m, ValueProp.Move),
+        [new DamageVar(14m, ValueProp.Move),
          new CalculationBaseVar(1m),
          new CalculationExtraVar(1m),
          new CalculatedVar(HitsKey).WithMultiplier(CalcHitsMultiplier)];
@@ -66,7 +66,7 @@ public class Card029_WrathOfVengeance() : MinorisCard(3, CardType.Attack, CardRa
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(8m);
+        DynamicVars.Damage.UpgradeValueBy(7m);
     }
 }
 

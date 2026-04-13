@@ -10,34 +10,35 @@ namespace Minoris.MinorisCode.Cards;
 卡牌稀有度: CardRarity.Rare
 tag标签: 
 费用: 0
-卡牌效果: 对所有敌人造成 {Damage:diff()} 点伤害。若消灭了敌人，获得 1 点能量。
-卡牌描述(ZHS): 对所有敌人造成 {Damage:diff()} 点伤害。若消灭了敌人，获得 1 点能量。
-卡牌描述(ENG): Deal {Damage:diff()} damage to ALL enemies. If an enemy is killed, gain 1 Energy.
+卡牌效果: 对所有敌人造成 {Damage:diff()} 点伤害。每消灭一个敌人，抽 1 张牌并获得 1 点能量。
+卡牌描述(ZHS): 对所有敌人造成 {Damage:diff()} 点伤害。每消灭一个敌人，抽 1 张牌并获得 1 点能量。
+卡牌描述(ENG): Deal {Damage:diff()} damage to ALL enemies. For each enemy killed, draw 1 card and gain 1 Energy.
 升级效果: 伤害+3
 */
 public class Card025_SunLens() : MinorisCard(0, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move), new EnergyVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(11m, ValueProp.Move), new EnergyVar(1)];
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (CombatState == null) return;
         var enemies = CombatState.GetOpponentsOf(Owner.Creature).Where(e => e.IsAlive).ToList();
-        var before = enemies.ToDictionary(e => e, e => e.CurrentHp);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .TargetingAllOpponents(CombatState)
             .Execute(choiceContext);
-        var afterKills = enemies.Any(e => !e.IsAlive || e.CurrentHp <= 0);
-        if (afterKills) Owner.PlayerCombatState!.GainEnergy(1);
+        if (enemies.Count == 0) return;
+        var kills = enemies.Count(e => !e.IsAlive || e.CurrentHp <= 0);
+        if (kills <= 0) return;
+        await CardPileCmd.Draw(choiceContext, kills, Owner);
+        Owner.PlayerCombatState!.GainEnergy(kills);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Damage.UpgradeValueBy(5m);
     }
 }
-
 
 
 
