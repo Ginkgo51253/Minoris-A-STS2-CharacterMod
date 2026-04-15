@@ -17,13 +17,18 @@ tag标签: CardTag.Strike
 */
 public class Card007_SpinStrike() : MinorisCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
+    private const string EnergyReduceKey = "EnergyReduce";
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, ValueProp.Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(8m, ValueProp.Move),
+        new IntVar(EnergyReduceKey, 1)
+    ];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target).Execute(choiceContext);
-        await PowerCmd.Apply<Powers.NextSkillCostReducePower>(Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.NextSkillCostReducePower>(Owner.Creature, DynamicVars[EnergyReduceKey].IntValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
@@ -31,7 +36,6 @@ public class Card007_SpinStrike() : MinorisCard(1, CardType.Attack, CardRarity.C
         DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }
-
 
 
 

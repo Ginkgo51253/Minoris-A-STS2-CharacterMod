@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -18,14 +18,16 @@ tag标签:
 public class Card034_Roll() : MinorisCard(1, CardType.Skill, CardRarity.Common, TargetType.None)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(15m, ValueProp.Move)];
+    private int _dazed = 2;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
         if (CombatState == null) return;
-        var d1 = CombatState.CreateCard<Dazed>(Owner);
-        var d2 = CombatState.CreateCard<Dazed>(Owner);
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(d1, PileType.Draw, true, CardPilePosition.Random));
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(d2, PileType.Draw, true, CardPilePosition.Random));
+        for (var i = 0; i < _dazed; i++)
+        {
+            var d = CombatState.CreateCard<Dazed>(Owner);
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(d, PileType.Draw, true, CardPilePosition.Random));
+        }
     }
     protected override void OnUpgrade()
     {

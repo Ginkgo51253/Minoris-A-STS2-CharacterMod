@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,9 +17,13 @@ tag标签:
 */
 public class Card072_BastBlessing() : MinorisCard(3, CardType.Power, CardRarity.Rare, TargetType.Self)
 {
+    private const string AmountKey = "Amount";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new IntVar(AmountKey, 1)];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<Powers.BastBlessingPower>(Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.BastBlessingPower>(Owner.Creature, DynamicVars[AmountKey].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {

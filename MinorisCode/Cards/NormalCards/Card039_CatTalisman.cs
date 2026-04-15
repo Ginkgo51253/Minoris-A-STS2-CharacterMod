@@ -17,7 +17,12 @@ tag标签:
 */
 public class Card039_CatTalisman() : MinorisCard(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1)];
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new HealVar(1m),
+        new EnergyVar(1),
+        new CardsVar(1)
+    ];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -26,16 +31,15 @@ public class Card039_CatTalisman() : MinorisCard(0, CardType.Skill, CardRarity.U
     
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Heal(Owner.Creature, 1m);
-        Owner.PlayerCombatState!.GainEnergy(1);
-        await CardPileCmd.Draw(choiceContext, 1, Owner);
+        await CreatureCmd.Heal(Owner.Creature, DynamicVars.Heal.BaseValue);
+        Owner.PlayerCombatState!.GainEnergy(DynamicVars.Energy.IntValue);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
     }
     protected override void OnUpgrade()
     {
         AddKeyword(CardKeyword.Innate);
     }
 }
-
 
 
 

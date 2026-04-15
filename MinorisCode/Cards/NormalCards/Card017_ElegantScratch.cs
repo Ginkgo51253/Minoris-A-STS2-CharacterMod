@@ -18,6 +18,8 @@ tag标签:
 public class Card017_ElegantScratch() : MinorisCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     private const string ScratchAmpKey = "ScratchAmp";
+    private const string DamageKey = "Damage";
+    private const string HitsKey = "Hits";
 
     public override TargetType TargetType
     {
@@ -32,19 +34,23 @@ public class Card017_ElegantScratch() : MinorisCard(1, CardType.Attack, CardRari
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var amp = DynamicVars[ScratchAmpKey].IntValue;
+        var damage = DynamicVars[DamageKey].BaseValue;
+        var hits = DynamicVars[HitsKey].IntValue;
         if (CombatState != null && TargetType == TargetType.AllEnemies)
         {
-            await DamageCmd.Attack(2m).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(2).Execute(choiceContext);
+            await DamageCmd.Attack(damage).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(hits).Execute(choiceContext);
             await PowerCmd.Apply<Powers.ScratchAmpPower>(Owner.Creature, amp, Owner.Creature, this);
             return;
         }
         if (cardPlay.Target == null) return;
-        await DamageCmd.Attack(2m).FromCard(this).Targeting(cardPlay.Target).WithHitCount(2).Execute(choiceContext);
+        await DamageCmd.Attack(damage).FromCard(this).Targeting(cardPlay.Target).WithHitCount(hits).Execute(choiceContext);
         await PowerCmd.Apply<Powers.ScratchAmpPower>(Owner.Creature, amp, Owner.Creature, this);
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new DamageVar(DamageKey, 2m, ValueProp.Move),
+        new IntVar(HitsKey, 2),
         new IntVar(ScratchAmpKey, 1)
     ];
 
@@ -55,8 +61,6 @@ public class Card017_ElegantScratch() : MinorisCard(1, CardType.Attack, CardRari
         DynamicVars[ScratchAmpKey].UpgradeValueBy(1m);
     }
 }
-
-
 
 
 

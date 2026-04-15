@@ -8,7 +8,7 @@ cd /d "%~dp0"
 :: ============================================================
 
 set "DEFAULT_GODOT_PATH=%CD%\..\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64_console.exe"
-set "DEFAULT_STS2_PATH=G:\_AI\STS2"
+set "DEFAULT_STS2_PATH=F:\SteamLibrary\steamapps\common\Slay the Spire 2"
 set "DEFAULT_STS2_DATA_DIR=%DEFAULT_STS2_PATH%\data_sts2_windows_x86_64"
 set "PROJECT_NAME=Minoris"
 

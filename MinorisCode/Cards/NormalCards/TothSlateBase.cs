@@ -29,6 +29,7 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
     private const string DexterityKey = "Dexterity";
     private const string VigorKey = "Vigor";
     private const string ArtifactKey = "Artifact";
+    private const string ReplayKey = "Replay";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => 
     [
@@ -40,7 +41,8 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
         new IntVar(DrawKey, 1),
         new IntVar(DexterityKey, 1),
         new IntVar(VigorKey, 4),
-        new IntVar(ArtifactKey, 1)
+        new IntVar(ArtifactKey, 1),
+        new IntVar(ReplayKey, 2)
     ];
 
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust, CardKeyword.Ethereal];
@@ -125,8 +127,8 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
             var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c != this).ToList();
             if (hand.Count > 0)
             {
-                CardSelectorPrefs prefs = new(new LocString("cards", "SELECT_TO_EXHAUST"), 1);
-                var selected = await CardSelectCmd.FromSimpleGrid(choiceContext, hand, Owner, prefs);
+                var prefs = new CardSelectorPrefs(new LocString("cards", "SELECT_TO_EXHAUST.selectionScreenPrompt"), 0, 1);
+                var selected = await CardSelectCmd.FromHand(choiceContext, Owner, prefs, ExhaustFilter, this);
                 var chosen = selected.FirstOrDefault();
                 if (chosen != null)
                 {
@@ -168,8 +170,40 @@ public abstract class TothSlateBase<TNext>(CardRarity rarity, TargetType targetT
         await Task.CompletedTask;
     }
 
+    private bool ExhaustFilter(CardModel card)
+    {
+        return card != this;
+    }
+
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
+    }
+
+    public override void AfterCreated()
+    {
+        base.AfterCreated();
+        if (Stage >= 12)
+        {
+            BaseReplayCount = DynamicVars[ReplayKey].IntValue;
+        }
+    }
+
+    protected override void AfterDeserialized()
+    {
+        base.AfterDeserialized();
+        if (Stage >= 12)
+        {
+            BaseReplayCount = DynamicVars[ReplayKey].IntValue;
+        }
+    }
+
+    public override void AfterTransformedTo()
+    {
+        base.AfterTransformedTo();
+        if (Stage >= 12)
+        {
+            BaseReplayCount = DynamicVars[ReplayKey].IntValue;
+        }
     }
 }

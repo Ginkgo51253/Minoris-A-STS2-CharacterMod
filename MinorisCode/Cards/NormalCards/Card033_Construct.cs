@@ -26,7 +26,7 @@ public class Card033_Construct() : MinorisCard(1, CardType.Skill, CardRarity.Com
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new BlockVar(8m, ValueProp.Move),
-        new IntVar(BonusPerPlayKey, 1)
+        new IntVar(BonusPerPlayKey, 2)
     ];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -52,7 +52,7 @@ public class Card033_Construct() : MinorisCard(1, CardType.Skill, CardRarity.Com
 
     protected override void OnUpgrade()
     {
-        DynamicVars[BonusPerPlayKey].UpgradeValueBy(1m);
+        DynamicVars[BonusPerPlayKey].UpgradeValueBy(2m);
     }
 }
 

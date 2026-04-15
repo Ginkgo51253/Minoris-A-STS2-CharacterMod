@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -17,13 +17,22 @@ tag标签:
 */
 public class Card016_Supersonic() : MinorisCard(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(4m, ValueProp.Move)];
+    private const string CardsKey = "Cards";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(4m, ValueProp.Move),
+        new CardsVar(1)
+    ];
+
+    private int _LoseHp = 1;
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, 1m, ValueProp.Unblockable | ValueProp.Unpowered, Owner.Creature, this);
+        await CreatureCmd.Damage(choiceContext, Owner.Creature, _LoseHp, ValueProp.Unblockable | ValueProp.Unpowered, Owner.Creature, this);
         if (cardPlay.Target == null) return;
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target).Execute(choiceContext);
-        await CardPileCmd.Draw(choiceContext, 1, Owner);
+        await CardPileCmd.Draw(choiceContext, DynamicVars[CardsKey].IntValue, Owner);
     }
     protected override void OnUpgrade()
     {

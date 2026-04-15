@@ -146,7 +146,7 @@
 	"MINORIS-CARD061_BRONZE_GAUNTLET.title": "Bronze Gauntlet",
 	"MINORIS-CARD061_BRONZE_GAUNTLET.description": "Whenever your Attacks deal damage, gain{BronzeGauntletPower:diff()}[gold]Block[/gold]",
 	"MINORIS-CARD062_TOY_CLAW.title": "Toy Claw",
-	"MINORIS-CARD062_TOY_CLAW.description": "At the start of your turn, add{ToyClawPower:diff()}\"Scratch\" to your [gold]Hand[/gold].",
+	"MINORIS-CARD062_TOY_CLAW.description": "At the start of your turn, add{ToyClawPower:diff()}\"Scratch{IfUpgraded:show:+|}\" to your [gold]Hand[/gold].",
 	"MINORIS-CARD062_1_SCRATCH.title": "Scratch",
 	"MINORIS-CARD062_1_SCRATCH.description": "Deal{Damage:diff()}damage{Hits:diff()}times.",
 	"MINORIS-CARD063_CAT_SCRATCH_BOARD.title": "Scratch Board",

@@ -17,7 +17,13 @@ tag标签:
 */
 public class Card052_MoonStep() : MinorisCard(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
+    private const string CardsKey = "Cards";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new EnergyVar(2),
+        new CardsVar(2),
+    ];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Ethereal];
     public override bool ShouldReceiveCombatHooks => true;
     
@@ -28,8 +34,8 @@ public class Card052_MoonStep() : MinorisCard(0, CardType.Skill, CardRarity.Rare
     private int _playsThisTurn;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        Owner.PlayerCombatState!.GainEnergy(2);
-        await CardPileCmd.Draw(choiceContext, 2, Owner);
+        Owner.PlayerCombatState!.GainEnergy(DynamicVars.Energy.IntValue);
+        await CardPileCmd.Draw(choiceContext, DynamicVars[CardsKey].IntValue, Owner);
         _playsThisTurn++;
         EnergyCost.SetThisCombat(_playsThisTurn);
     }
@@ -45,7 +51,6 @@ public class Card052_MoonStep() : MinorisCard(0, CardType.Skill, CardRarity.Rare
         await Task.CompletedTask;
     }
 }
-
 
 
 

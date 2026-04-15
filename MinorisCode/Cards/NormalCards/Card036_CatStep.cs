@@ -1,7 +1,6 @@
 
 namespace Minoris.MinorisCode.Cards;
 
-
 /*
 本地键: MINORIS-CARD036_CAT_STEP
 中文名称: 猫步
@@ -17,18 +16,18 @@ tag标签:
 */
 public class Card036_CatStep() : MinorisCard(2, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<SlipperyPower>(3)];
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<SlipperyPower>()];
     
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<SlipperyPower>(Owner.Creature, 3, Owner.Creature, this);
+        await PowerCmd.Apply<SlipperyPower>(Owner.Creature, DynamicVars["SlipperyPower"].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
     }
 }
-
 
 
 

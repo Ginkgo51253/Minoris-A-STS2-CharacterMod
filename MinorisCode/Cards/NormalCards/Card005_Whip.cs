@@ -34,6 +34,7 @@ public class Card005_Whip() : MinorisCard(1, CardType.Attack, CardRarity.Common,
     }
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(3m);
         DynamicVars["VulnerablePower"].UpgradeValueBy(1);
     }
 }

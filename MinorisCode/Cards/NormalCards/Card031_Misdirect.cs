@@ -29,8 +29,8 @@ public class Card031_Misdirect() : MinorisCard(0, CardType.Skill, CardRarity.Com
     {
         if (cardPlay.Target == null) return;
         var lose = DynamicVars["LoseStrength"].IntValue;
-        await PowerCmd.Apply<StrengthPower>(cardPlay.Target, -lose, Owner.Creature, this);
-        await PowerCmd.Apply<Powers.RevertStrengthAtTurnEndPower>(cardPlay.Target, lose, Owner.Creature, this);
+        //await PowerCmd.Apply<StrengthPower>(cardPlay.Target, -lose, Owner.Creature, this);
+        await PowerCmd.Apply<Powers.MisdirectPower>(cardPlay.Target, lose, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {

@@ -19,6 +19,7 @@ public class Card037_Evade() : MinorisCard(3, CardType.Skill, CardRarity.Common,
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(24m, ValueProp.Move)];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Retain, CardKeyword.Exhaust];
+    private int _LoseHp = 3;
     
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [HoverTipFactory.FromKeyword(CardKeyword.Retain),
@@ -26,7 +27,7 @@ public class Card037_Evade() : MinorisCard(3, CardType.Skill, CardRarity.Common,
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.Damage(choiceContext, new[] { Owner.Creature }, 3m, ValueProp.Unblockable | ValueProp.Unpowered, Owner.Creature, this);
+        await CreatureCmd.Damage(choiceContext, new[] { Owner.Creature }, _LoseHp, ValueProp.Unblockable | ValueProp.Unpowered, Owner.Creature, this);
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
     }
 
@@ -35,7 +36,6 @@ public class Card037_Evade() : MinorisCard(3, CardType.Skill, CardRarity.Common,
         DynamicVars.Block.UpgradeValueBy(6m);
     }
 }
-
 
 
 

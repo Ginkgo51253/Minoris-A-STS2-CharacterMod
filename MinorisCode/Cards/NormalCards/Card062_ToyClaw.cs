@@ -19,7 +19,7 @@ public class Card062_ToyClaw() : MinorisCard(1, CardType.Power, CardRarity.Uncom
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.ToyClawPower>(1)];
     
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Card062_1_Scratch>()];
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Card062_1_Scratch>(base.IsUpgraded)];
     
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

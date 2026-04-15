@@ -27,4 +27,3 @@ public class Card069_1_Sandstorm() : MinorisCard(1, CardType.Skill, CardRarity.T
     }
 }
 
-

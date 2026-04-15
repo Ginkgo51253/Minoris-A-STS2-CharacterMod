@@ -21,24 +21,6 @@ tag标签:
 public class Card056_11_TothSlateXii() : TothSlateBase<Card056_12_TothSlateXiii>(CardRarity.Token, TargetType.AnyEnemy)
 {
     protected override int Stage => 12;
-
-    public override void AfterCreated()
-    {
-        base.AfterCreated();
-        BaseReplayCount = 2;
-    }
-
-    protected override void AfterDeserialized()
-    {
-        base.AfterDeserialized();
-        BaseReplayCount = 2;
-    }
-
-    public override void AfterTransformedTo()
-    {
-        base.AfterTransformedTo();
-        BaseReplayCount = 2;
-    }
 }
 
 

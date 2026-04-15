@@ -17,6 +17,15 @@ tag标签:
 */
 public class Card053_AlchemicalCrucible() : MinorisCard(1, CardType.Skill, CardRarity.Rare, TargetType.None)
 {
+    private const string ExhaustCountKey = "ExhaustCount";
+    private const string GainCountKey = "GainCount";
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new IntVar(ExhaustCountKey, 2),
+        new IntVar(GainCountKey, 1)
+    ];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
     
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -24,8 +33,9 @@ public class Card053_AlchemicalCrucible() : MinorisCard(1, CardType.Skill, CardR
         var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c != this).ToList();
         if (hand.Count > 0)
         {
-            var toExhaust = hand.Count >= 2
-                ? await CardSelectCmd.FromSimpleGrid(choiceContext, hand, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 2))
+            var exhaustCount = DynamicVars[ExhaustCountKey].IntValue;
+            var toExhaust = hand.Count >= exhaustCount
+                ? await CardSelectCmd.FromSimpleGrid(choiceContext, hand, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, exhaustCount))
                 : hand;
             foreach (var c in toExhaust) await CardCmd.Exhaust(choiceContext, c);
         }
@@ -37,9 +47,13 @@ public class Card053_AlchemicalCrucible() : MinorisCard(1, CardType.Skill, CardR
             .ToList();
         if (candidates.Count > 0)
         {
-            var pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(candidates);
-            var generated = CombatState.CreateCard(pick, Owner);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, false, CardPilePosition.Top));
+            var gainCount = DynamicVars[GainCountKey].IntValue;
+            for (var i = 0; i < gainCount; i++)
+            {
+                var pick = Owner.RunState.Rng.CombatCardGeneration.NextItem(candidates);
+                var generated = CombatState.CreateCard(pick, Owner);
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(generated, PileType.Hand, false, CardPilePosition.Top));
+            }
         }
     }
     protected override void OnUpgrade()
@@ -47,7 +61,6 @@ public class Card053_AlchemicalCrucible() : MinorisCard(1, CardType.Skill, CardR
         EnergyCost.UpgradeBy(-1);
     }
 }
-
 
 
 

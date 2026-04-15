@@ -17,6 +17,7 @@ tag标签:
 */
 public class Card055_LightAsFeather() : MinorisCard(1, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy)
 {
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<SlowPower>(1)];
     public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -26,14 +27,13 @@ public class Card055_LightAsFeather() : MinorisCard(1, CardType.Skill, CardRarit
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;
-        await PowerCmd.Apply<SlowPower>(cardPlay.Target, 1, Owner.Creature, this);
+        await PowerCmd.Apply<SlowPower>(cardPlay.Target, DynamicVars["SlowPower"].IntValue, Owner.Creature, this);
     }
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
     }
 }
-
 
 
 

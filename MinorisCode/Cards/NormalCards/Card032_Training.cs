@@ -34,7 +34,7 @@ public class Card032_Training() : MinorisCard(1, CardType.Skill, CardRarity.Comm
         var hand = PileType.Hand.GetPile(Owner).Cards.Where(c => c.IsUpgradable).ToList();
         if (hand.Count == 0) return;
 
-        var prefs = new CardSelectorPrefs(new LocString("gameplay_ui", "CHOOSE_CARD_UPGRADE_HEADER"), count);
+        var prefs = new CardSelectorPrefs(new LocString("gameplay_ui", "CHOOSE_CARD_UPGRADE_HEADER"), 0, count);
         var picks = await CardSelectCmd.FromHand(choiceContext, Owner, prefs, c => c.IsUpgradable, this);
         foreach (var c in picks)
         {

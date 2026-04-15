@@ -1,4 +1,4 @@
-﻿
+
 namespace Minoris.MinorisCode.Cards;
 
 
@@ -19,6 +19,7 @@ public class Card038_PaperPlane() : MinorisCard(0, CardType.Skill, CardRarity.Un
 {
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, ValueProp.Move)];
     public override bool ShouldReceiveCombatHooks => true;
+    private int _AttacksPerReturn = 3;
     private int _attacksThisTurn;
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -41,7 +42,7 @@ public class Card038_PaperPlane() : MinorisCard(0, CardType.Skill, CardRarity.Un
         if (playedCard.Type == CardType.Attack)
         {
             _attacksThisTurn++;
-            if (_attacksThisTurn >= 3)
+            if (_attacksThisTurn >= _AttacksPerReturn)
             {
                 var inHand = PileType.Hand.GetPile(Owner).Cards.Contains(this);
                 if (!inHand)

@@ -1,0 +1,50 @@
+﻿
+namespace Minoris.MinorisCode.Powers;
+
+
+/*
+能力中文名称: 回合结束返还力量
+能力英文名称: Revert Strength At Turn End
+能力描述(ZHS): 在回合结束时，获得[blue]{Amount}[/blue]点力量。然后移除。
+能力描述(ENG): At end of turn, gain [blue]{Amount}[/blue] Strength. Then remove this.
+相关卡牌（本地键）: MINORIS-CARD031_MISDIRECT
+*/
+public class MisdirectPower : TemporaryStrengthPower, ICustomPower
+{
+    public override AbstractModel OriginModel => ModelDb.Card<Card031_Misdirect>();
+    protected override bool IsPositive => false;
+
+    public string? CustomPackedIconPath
+    {
+        get
+        {
+            var path = $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
+            return ResourceLoader.Exists(path) ? path : "res://images/powers/missing_power.png";
+        }
+    }
+
+    public string? CustomBigIconPath
+    {
+        get
+        {
+            var path = $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".BigPowerImagePath();
+            return ResourceLoader.Exists(path) ? path : "res://images/powers/missing_power.png";
+        }
+    }
+
+    public string? CustomBigBetaIconPath => null;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
