@@ -1,8 +1,13 @@
 global using BaseLib.Abstracts;
 global using BaseLib.Extensions;
 global using BaseLib.Utils;
+global using BaseLib.Config;
+
 global using Godot;
 global using HarmonyLib;
+
+global using MegaCrit.Sts2.Core.Animation;
+global using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 global using MegaCrit.Sts2.Core.CardSelection;
 global using MegaCrit.Sts2.Core.Commands;
 global using MegaCrit.Sts2.Core.Combat;
@@ -21,7 +26,11 @@ global using MegaCrit.Sts2.Core.Localization.DynamicVars;
 global using MegaCrit.Sts2.Core.Models;
 global using MegaCrit.Sts2.Core.Models.CardPools;
 global using MegaCrit.Sts2.Core.Models.Cards;
+global using MegaCrit.Sts2.Core.Models.RelicPools;
 global using MegaCrit.Sts2.Core.Models.Powers;
+global using MegaCrit.Sts2.Core.Models.Relics;
+global using MegaCrit.Sts2.Core.Models.Events;
+global using MegaCrit.Sts2.Core.Models.Monsters;
 global using MegaCrit.Sts2.Core.Multiplayer.Game;
 global using MegaCrit.Sts2.Core.Nodes.Combat;
 global using MegaCrit.Sts2.Core.Nodes.CommonUi;
@@ -29,10 +38,13 @@ global using MegaCrit.Sts2.Core.Nodes.Rooms;
 global using MegaCrit.Sts2.Core.Rooms;
 global using MegaCrit.Sts2.Core.Runs;
 global using MegaCrit.Sts2.Core.Saves.Runs;
+global using MegaCrit.Sts2.Core.Saves.Managers;
 global using MegaCrit.Sts2.Core.ValueProps;
-global using MegaCrit.Sts2.Core.Models.Relics;
+global using MegaCrit.Sts2.Core.Logging;
+global using MegaCrit.Sts2.Core.Modding;
 global using MegaCrit.Sts2.Core.Entities.Relics;
-global using MegaCrit.Sts2.Core.Models.RelicPools;
+global using MegaCrit.Sts2.Core.TestSupport;
+
 global using Minoris.MinorisCode.Character;
 global using Minoris.MinorisCode.Cards;
 global using Minoris.MinorisCode.Relics;
@@ -40,8 +52,9 @@ global using Minoris.MinorisCode.Powers;
 global using Minoris.MinorisCode.Potions;
 global using Minoris.MinorisCode.Extensions;
 global using Minoris.MinorisCode.Animations;
+
 global using System;
+global using System.Reflection;
 global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
-

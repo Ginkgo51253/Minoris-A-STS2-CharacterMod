@@ -70,7 +70,6 @@ public class TothSlateXiiiPower : MinorisPower
                 if (!CombatManager.Instance.IsInProgress) return;
             }
 
-            if (Owner.Player != null) await PlayerCmd.GainEnergy(_energy, Owner.Player);
             await CreatureCmd.Heal(Owner, _heal);
 
             if (Owner.Player != null)
@@ -105,8 +104,16 @@ public class TothSlateXiiiPower : MinorisPower
                 if (_artifact != 0) await PowerCmd.Apply<ArtifactPower>(Owner, _artifact, Owner, null);
             }
         }
-
         Flash();
+    }
+
+    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    {
+        if (player != Owner.Player) return;
+        for (var i = 0; i < Amount; i++)
+        {
+            if (Owner.Player != null) await PlayerCmd.GainEnergy(_energy, Owner.Player);
+        }
     }
 }
 
