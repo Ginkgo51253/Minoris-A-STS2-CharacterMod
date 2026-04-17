@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/4.5.1">
+<Project Sdk="Godot.NET.Sdk/4.5.1" InitialTargets="CheckDependencyPaths">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>true</ImplicitUsings>
@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsWindows)' == 'true'">
-    <GodotPath Condition="'$(GodotPath)' == ''">C:\Path\To\Godot\Godot4.5.1.exe</GodotPath>
+    <GodotPath Condition="'$(GodotPath)' == ''">F:\_WorkShop2_GK\STS2\STS2_mod\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64.exe</GodotPath>
     <Sts2Path Condition="'$(Sts2Path)' == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 2868840', 'InstallLocation', '', RegistryView.Registry64, RegistryView.Registry32))</Sts2Path>
     <AutoSteamPath>$(registry:HKEY_CURRENT_USER\Software\Valve\Steam@SteamPath)\steamapps</AutoSteamPath>
     <SteamLibraryPath Condition="'$(SteamLibraryPath)' == '' and Exists('$(AutoSteamPath)/common/Slay the Spire 2')">$(AutoSteamPath)</SteamLibraryPath>
@@ -60,6 +60,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Godot.NET.Sdk" Version="4.5.1" />
     <Reference Include="0Harmony">
       <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
       <Private>false</Private>
@@ -83,6 +84,11 @@
     <None Include="project.godot" />
   </ItemGroup>
 
+  <Target Name="CheckDependencyPaths">
+    <Error Text=" Slay the Spire 2 data not found at path '$(Sts2DataDir)'" Condition="'$(Sts2DataDir)' == '' or !Exists('$(Sts2DataDir)')" />
+    <Error Text=" Godot not found at path '$(GodotPath)'" Condition="'$(GodotPath)' == '' or !Exists('$(GodotPath)')" />
+  </Target>
+
   <Target Name="VerifyBaseLibVersion" AfterTargets="Build">
     <PropertyGroup>
       <GameModsBaseLibManifest>$(GameModsPath)BaseLib\BaseLib.json</GameModsBaseLibManifest>
@@ -102,7 +108,6 @@
     <Warning Condition="!Exists('$(PkgBaseLibManifest)')" Text="BaseLib version check: '$(PkgBaseLibManifest)' not found. Restore may be required to verify dependency version." />
     <Warning Condition="Exists('$(GameModsBaseLibManifest)') and '$(InstalledBaseLibVersion)' == ''" Text="BaseLib version check: failed to parse version from '$(GameModsBaseLibManifest)'." />
     <Warning Condition="Exists('$(PkgBaseLibManifest)') and '$(ExpectedBaseLibVersion)' == ''" Text="BaseLib version check: failed to parse version from '$(PkgBaseLibManifest)'." />
-    <Warning Condition="Exists('$(GameModsBaseLibManifest)') and Exists('$(PkgBaseLibManifest)') and '$(InstalledBaseLibVersion)' != '' and '$(ExpectedBaseLibVersion)' != '' and '$(InstalledBaseLibVersion)' != '$(ExpectedBaseLibVersion)'"
-             Text="BaseLib version mismatch: installed=$(InstalledBaseLibVersion) (game mods/BaseLib), dependency=$(ExpectedBaseLibVersion) (NuGet $(BaseLibPackageVersion)). Minoris may behave incorrectly." />
+    <Warning Condition="Exists('$(GameModsBaseLibManifest)') and Exists('$(PkgBaseLibManifest)') and '$(InstalledBaseLibVersion)' != '' and '$(ExpectedBaseLibVersion)' != '' and '$(InstalledBaseLibVersion)' != '$(ExpectedBaseLibVersion)'" Text="BaseLib version mismatch: installed=$(InstalledBaseLibVersion) (game mods/BaseLib), dependency=$(ExpectedBaseLibVersion) (NuGet $(BaseLibPackageVersion)). Minoris may behave incorrectly." />
   </Target>
 </Project>
