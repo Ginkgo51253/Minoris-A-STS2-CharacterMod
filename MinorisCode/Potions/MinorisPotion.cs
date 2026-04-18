@@ -5,7 +5,7 @@ public abstract class MinorisPotion : CustomPotionModel
 {
     private const string MissingPotionIconPath = "res://images/powers/missing_power.png";
 
-    public override string? PackedImagePath
+    public override string? CustomPackedImagePath
     {
         get
         {
@@ -16,7 +16,7 @@ public abstract class MinorisPotion : CustomPotionModel
         }
     }
 
-    public override string? PackedOutlinePath
+    public override string? CustomPackedOutlinePath
     {
         get
         {
