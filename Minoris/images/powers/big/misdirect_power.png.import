@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qb3obkh2j566"
-path="res://.godot/imported/revert_strength_at_turn_end_power.png-a4dd6ab05ebbb5fb6b6a816323b6add5.ctex"
+uid="uid://ddilqkud32dgb"
+path="res://.godot/imported/misdirect_power.png-8b4763e0aeb2464d81626c6553933792.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Minoris/images/powers/revert_strength_at_turn_end_power.png"
-dest_files=["res://.godot/imported/revert_strength_at_turn_end_power.png-a4dd6ab05ebbb5fb6b6a816323b6add5.ctex"]
+source_file="res://Minoris/images/powers/big/misdirect_power.png"
+dest_files=["res://.godot/imported/misdirect_power.png-8b4763e0aeb2464d81626c6553933792.ctex"]
 
 [params]
 
